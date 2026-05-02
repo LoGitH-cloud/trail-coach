@@ -7,215 +7,183 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Trail Coach">
-<meta name="description" content="Lorenzo's persoonlijke AI trail running coach">
 <link rel="manifest" href="manifest.json">
 <title>Trail Coach</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0A0A0A;
-  --bg2: #141414;
-  --bg3: #1E1E1E;
-  --border: #2A2A2A;
-  --text: #F0EDE8;
-  --text2: #8A8680;
-  --text3: #5A5652;
-  --accent: #E8432D;
-  --accent2: #F5A623;
-  --green: #4CAF72;
-  --blue: #4A90D9;
-  --mono: 'DM Mono', monospace;
-  --sans: 'Sora', sans-serif;
-  --r: 12px;
-  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --bg: #0A0A0A; --bg2: #141414; --bg3: #1E1E1E;
+  --border: #2A2A2A; --text: #F0EDE8; --text2: #8A8680; --text3: #5A5652;
+  --accent: #E8432D; --accent2: #F5A623; --green: #4CAF72; --blue: #4A90D9;
+  --mono: 'DM Mono', monospace; --sans: 'Sora', sans-serif; --r: 12px;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 html, body { height: 100%; background: var(--bg); color: var(--text); font-family: var(--sans); overflow: hidden; }
-.app { height: 100vh; display: flex; flex-direction: column; max-width: 430px; margin: 0 auto; position: relative; }
-
-/* HEADER */
-.header { padding: 16px 20px 12px; padding-top: calc(16px + env(safe-area-inset-top, 0px)); display: flex; justify-content: space-between; align-items: center; border-bottom: 0.5px solid var(--border); flex-shrink: 0; }
-.header-left .app-name { font-size: 11px; font-family: var(--mono); color: var(--text3); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 2px; }
-.header-left .page-title { font-size: 18px; font-weight: 600; color: var(--text); }
-.avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: white; font-family: var(--mono); }
-
-/* SCROLL CONTENT */
+.app { height: 100vh; display: flex; flex-direction: column; max-width: 430px; margin: 0 auto; }
+.header { padding: 16px 20px 12px; padding-top: calc(16px + env(safe-area-inset-top,0px)); display: flex; justify-content: space-between; align-items: center; border-bottom: 0.5px solid var(--border); flex-shrink: 0; }
+.app-name { font-size: 10px; font-family: var(--mono); color: var(--text3); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 2px; }
+.page-title { font-size: 18px; font-weight: 600; color: var(--text); }
+.avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: white; }
 .content { flex: 1; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; padding: 20px; }
 .content::-webkit-scrollbar { display: none; }
-
-/* NAV */
-.bottom-nav { flex-shrink: 0; border-top: 0.5px solid var(--border); display: flex; padding: 8px 0; padding-bottom: calc(8px + var(--safe-bottom)); background: var(--bg); }
-.nav-btn { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 6px 4px; background: none; border: none; cursor: pointer; transition: opacity 0.15s; }
-.nav-btn:active { opacity: 0.6; }
-.nav-icon { font-size: 18px; line-height: 1; }
-.nav-label { font-size: 9px; font-family: var(--mono); color: var(--text3); letter-spacing: 0.05em; text-transform: uppercase; transition: color 0.15s; }
+.bottom-nav { flex-shrink: 0; border-top: 0.5px solid var(--border); display: flex; padding: 8px 0; padding-bottom: calc(8px + env(safe-area-inset-bottom,0px)); background: var(--bg); }
+.nav-btn { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 4px 2px; background: none; border: none; cursor: pointer; }
+.nav-icon { font-size: 17px; }
+.nav-label { font-size: 9px; font-family: var(--mono); color: var(--text3); letter-spacing: 0.04em; text-transform: uppercase; }
 .nav-btn.active .nav-label { color: var(--accent); }
-.nav-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--accent); margin: 0 auto; opacity: 0; transition: opacity 0.15s; }
+.nav-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--accent); margin: 0 auto; opacity: 0; }
 .nav-btn.active .nav-dot { opacity: 1; }
-
-/* SECTIONS */
 .section { display: none; }
-.section.active { display: block; animation: fadeIn 0.2s ease; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
-
-/* CARDS */
+.section.active { display: block; animation: fi 0.2s ease; }
+@keyframes fi { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:translateY(0); } }
 .card { background: var(--bg2); border: 0.5px solid var(--border); border-radius: var(--r); padding: 16px; margin-bottom: 12px; }
-.card-sm { background: var(--bg2); border: 0.5px solid var(--border); border-radius: var(--r); padding: 12px; margin-bottom: 10px; }
+.goal-card { background: linear-gradient(135deg,#1A0E0C,#1A1208); border: 0.5px solid #3A2018; border-radius: var(--r); padding: 16px; margin-bottom: 16px; position: relative; overflow: hidden; }
+.goal-card::before { content:''; position:absolute; top:-30px; right:-30px; width:120px; height:120px; border-radius:50%; background:radial-gradient(circle,rgba(232,67,45,0.15) 0%,transparent 70%); }
+.goal-tag { font-size:10px; font-family:var(--mono); color:var(--accent); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:8px; }
+.goal-name { font-size:17px; font-weight:600; color:var(--text); margin-bottom:4px; }
+.goal-meta { font-size:12px; color:var(--text2); margin-bottom:14px; }
+.goal-stats { display:flex; }
+.goal-stat { flex:1; text-align:center; border-right:0.5px solid #3A2018; }
+.goal-stat:last-child { border-right:none; }
+.goal-stat-num { font-size:20px; font-weight:600; font-family:var(--mono); color:var(--text); }
+.goal-stat-label { font-size:9px; font-family:var(--mono); color:var(--text3); text-transform:uppercase; letter-spacing:0.06em; margin-top:2px; }
+.prog-track { height:2px; background:var(--border); border-radius:1px; margin-top:14px; overflow:hidden; }
+.prog-fill { height:100%; background:var(--accent); border-radius:1px; }
+.stat-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px; }
+.stat-box { background:var(--bg2); border:0.5px solid var(--border); border-radius:var(--r); padding:14px; }
+.stat-label { font-size:10px; font-family:var(--mono); color:var(--text3); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px; }
+.stat-value { font-size:22px; font-weight:600; font-family:var(--mono); color:var(--text); }
+.stat-unit { font-size:11px; color:var(--text3); font-family:var(--mono); }
+.run-card { background:var(--bg2); border:0.5px solid var(--border); border-radius:var(--r); padding:14px; margin-bottom:10px; cursor:pointer; transition:background 0.15s; }
+.run-card:active { background:var(--bg3); }
+.run-top { display:flex; justify-content:space-between; margin-bottom:8px; }
+.run-name { font-size:13px; font-weight:500; color:var(--text); }
+.run-date { font-size:11px; font-family:var(--mono); color:var(--text3); }
+.run-stats { display:flex; gap:12px; flex-wrap:wrap; }
+.run-stat { font-size:12px; font-family:var(--mono); color:var(--text2); }
+.run-stat span { color:var(--text); }
+.badge { display:inline-block; font-size:9px; font-family:var(--mono); padding:3px 8px; border-radius:4px; letter-spacing:0.06em; text-transform:uppercase; margin-top:6px; }
+.b-trail { background:rgba(76,175,114,0.15); color:var(--green); border:0.5px solid rgba(76,175,114,0.3); }
+.b-road { background:rgba(74,144,217,0.15); color:var(--blue); border:0.5px solid rgba(74,144,217,0.3); }
+.b-tempo { background:rgba(245,166,35,0.15); color:var(--accent2); border:0.5px solid rgba(245,166,35,0.3); }
+.sec-label { font-size:10px; font-family:var(--mono); color:var(--text3); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:10px; margin-top:20px; }
+.sec-label:first-child { margin-top:0; }
+.info-note { background:var(--bg3); border-radius:8px; padding:10px 12px; font-size:12px; color:var(--text3); line-height:1.6; margin-bottom:12px; }
+.week-card { background:var(--bg2); border:0.5px solid var(--border); border-radius:var(--r); padding:14px; margin-bottom:10px; }
+.week-hdr { display:flex; justify-content:space-between; align-items:center; cursor:pointer; }
+.week-title { font-size:14px; font-weight:500; color:var(--text); }
+.week-sub { font-size:11px; color:var(--text3); margin-top:2px; font-family:var(--mono); }
+.phase-tag { font-size:9px; font-family:var(--mono); padding:3px 8px; border-radius:4px; letter-spacing:0.06em; text-transform:uppercase; }
+.ph-build { background:rgba(74,144,217,0.15); color:var(--blue); }
+.ph-peak { background:rgba(245,166,35,0.15); color:var(--accent2); }
+.ph-taper { background:rgba(76,175,114,0.15); color:var(--green); }
+.ph-race { background:rgba(232,67,45,0.15); color:var(--accent); }
+.ph-herstel { background:rgba(150,100,220,0.15); color:#B47EE5; }
+.week-meta { display:flex; gap:12px; margin-top:10px; }
+.week-meta-item { font-size:11px; font-family:var(--mono); color:var(--text3); }
+.week-meta-item span { color:var(--text2); }
+.week-days { margin-top:12px; border-top:0.5px solid var(--border); padding-top:12px; display:none; }
+.week-days.open { display:block; }
+.day-row { display:flex; align-items:center; gap:10px; padding:5px 0; }
+.day-nm { font-size:10px; font-family:var(--mono); color:var(--text3); width:20px; }
+.day-track { flex:1; height:3px; background:var(--border); border-radius:2px; overflow:hidden; }
+.day-fill { height:100%; border-radius:2px; }
+.bar-e { background:var(--green); }
+.bar-m { background:var(--accent2); }
+.bar-h { background:var(--accent); }
+.day-desc { font-size:11px; color:var(--text2); width:130px; text-align:right; font-family:var(--mono); }
+.tof-note { background:var(--bg3); border-radius:8px; padding:10px; margin-top:10px; font-size:11px; color:var(--text3); line-height:1.6; }
+.tof-note strong { color:var(--text2); }
+.kracht-nav { display:flex; gap:6px; margin-bottom:14px; overflow-x:auto; padding-bottom:2px; }
+.kracht-nav::-webkit-scrollbar { display:none; }
+.k-btn { font-size:10px; font-family:var(--mono); padding:6px 12px; border-radius:20px; border:0.5px solid var(--border); background:none; color:var(--text3); cursor:pointer; white-space:nowrap; letter-spacing:0.05em; }
+.k-btn.active { background:var(--accent); color:white; border-color:var(--accent); }
+.ks { display:none; }
+.ks.show { display:block; }
+.ex-row { display:flex; align-items:center; gap:12px; padding:10px 0; border-bottom:0.5px solid var(--border); cursor:pointer; }
+.ex-row:last-of-type { border-bottom:none; }
+.ex-icon { font-size:20px; width:36px; height:36px; background:var(--bg3); border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.ex-info { flex:1; }
+.ex-name { font-size:13px; font-weight:500; color:var(--text); }
+.ex-meta { font-size:11px; font-family:var(--mono); color:var(--text3); margin-top:2px; }
 
-/* RACE GOAL CARD */
-.goal-card { background: linear-gradient(135deg, #1A0E0C 0%, #1A1208 100%); border: 0.5px solid #3A2018; border-radius: var(--r); padding: 16px; margin-bottom: 16px; position: relative; overflow: hidden; }
-.goal-card::before { content: ''; position: absolute; top: -30px; right: -30px; width: 120px; height: 120px; border-radius: 50%; background: radial-gradient(circle, rgba(232,67,45,0.15) 0%, transparent 70%); }
-.goal-tag { font-size: 10px; font-family: var(--mono); color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
-.goal-name { font-size: 17px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
-.goal-meta { font-size: 12px; color: var(--text2); margin-bottom: 14px; }
-.goal-stats { display: flex; gap: 0; }
-.goal-stat { flex: 1; text-align: center; border-right: 0.5px solid #3A2018; }
-.goal-stat:last-child { border-right: none; }
-.goal-stat-num { font-size: 20px; font-weight: 600; font-family: var(--mono); color: var(--text); }
-.goal-stat-label { font-size: 9px; font-family: var(--mono); color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2px; }
-.progress-track { height: 2px; background: var(--border); border-radius: 1px; margin-top: 14px; overflow: hidden; }
-.progress-fill { height: 100%; background: var(--accent); border-radius: 1px; transition: width 0.5s ease; }
+.vid-btn { display:inline-flex; align-items:center; gap:6px; margin-top:8px; font-size:11px; font-family:var(--mono); color:var(--accent); background:none; border:0.5px solid var(--accent); border-radius:20px; padding:5px 12px; cursor:pointer; letter-spacing:0.04em; text-decoration:none; }
+.vid-btn:hover { background:rgba(232,67,45,0.08); }
 
-/* STAT GRID */
-.stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
-.stat-box { background: var(--bg2); border: 0.5px solid var(--border); border-radius: var(--r); padding: 14px; }
-.stat-box-label { font-size: 10px; font-family: var(--mono); color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
-.stat-box-value { font-size: 22px; font-weight: 600; font-family: var(--mono); color: var(--text); }
-.stat-box-unit { font-size: 11px; color: var(--text3); font-family: var(--mono); }
-
-/* RUN CARDS */
-.run-card { background: var(--bg2); border: 0.5px solid var(--border); border-radius: var(--r); padding: 14px; margin-bottom: 10px; cursor: pointer; transition: border-color 0.15s, background 0.15s; }
-.run-card:active { background: var(--bg3); border-color: var(--text3); }
-.run-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
-.run-card-name { font-size: 14px; font-weight: 500; color: var(--text); }
-.run-card-date { font-size: 11px; font-family: var(--mono); color: var(--text3); }
-.run-card-stats { display: flex; gap: 14px; }
-.run-card-stat { font-size: 12px; color: var(--text2); font-family: var(--mono); }
-.run-card-stat span { color: var(--text); font-weight: 500; }
-.badge { display: inline-block; font-size: 9px; font-family: var(--mono); padding: 3px 8px; border-radius: 4px; letter-spacing: 0.06em; text-transform: uppercase; margin-top: 8px; }
-.b-trail { background: rgba(76,175,114,0.15); color: var(--green); border: 0.5px solid rgba(76,175,114,0.3); }
-.b-road { background: rgba(74,144,217,0.15); color: var(--blue); border: 0.5px solid rgba(74,144,217,0.3); }
-
-/* SECTION LABELS */
-.sec-label { font-size: 10px; font-family: var(--mono); color: var(--text3); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; margin-top: 20px; }
-.sec-label:first-child { margin-top: 0; }
-
-/* WEEK CARDS (PLAN) */
-.week-card { background: var(--bg2); border: 0.5px solid var(--border); border-radius: var(--r); padding: 14px; margin-bottom: 10px; }
-.week-card-header { display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-.week-card-title { font-size: 14px; font-weight: 500; color: var(--text); }
-.week-card-sub { font-size: 11px; color: var(--text3); margin-top: 2px; font-family: var(--mono); }
-.phase-tag { font-size: 9px; font-family: var(--mono); padding: 3px 8px; border-radius: 4px; letter-spacing: 0.06em; text-transform: uppercase; }
-.phase-build { background: rgba(74,144,217,0.15); color: var(--blue); }
-.phase-peak { background: rgba(245,166,35,0.15); color: var(--accent2); }
-.phase-taper { background: rgba(76,175,114,0.15); color: var(--green); }
-.phase-race { background: rgba(232,67,45,0.15); color: var(--accent); }
-.week-meta { display: flex; gap: 14px; margin-top: 10px; }
-.week-meta-item { font-size: 11px; font-family: var(--mono); color: var(--text3); }
-.week-meta-item span { color: var(--text2); }
-.week-days { margin-top: 12px; border-top: 0.5px solid var(--border); padding-top: 12px; display: none; }
-.week-days.open { display: block; }
-.day-row { display: flex; align-items: center; gap: 10px; padding: 5px 0; }
-.day-name { font-size: 10px; font-family: var(--mono); color: var(--text3); width: 20px; }
-.day-bar-track { flex: 1; height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; }
-.day-bar-fill { height: 100%; border-radius: 2px; }
-.bar-easy { background: var(--green); }
-.bar-mod { background: var(--accent2); }
-.bar-hard { background: var(--accent); }
-.day-desc { font-size: 11px; color: var(--text2); width: 120px; text-align: right; font-family: var(--mono); }
-.tof-note { background: var(--bg3); border-radius: 8px; padding: 10px; margin-top: 10px; font-size: 11px; color: var(--text3); line-height: 1.6; }
-.tof-note strong { color: var(--text2); }
-
-/* KRACHT */
-.kracht-nav { display: flex; gap: 6px; margin-bottom: 14px; overflow-x: auto; padding-bottom: 2px; }
-.kracht-nav::-webkit-scrollbar { display: none; }
-.kracht-btn { font-size: 10px; font-family: var(--mono); padding: 6px 12px; border-radius: 20px; border: 0.5px solid var(--border); background: none; color: var(--text3); cursor: pointer; white-space: nowrap; letter-spacing: 0.05em; transition: all 0.15s; }
-.kracht-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
-.kracht-section { display: none; }
-.kracht-section.show { display: block; }
-.exercise-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 0.5px solid var(--border); cursor: pointer; }
-.exercise-row:last-of-type { border-bottom: none; }
-.exercise-icon { font-size: 22px; width: 38px; height: 38px; background: var(--bg3); border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.exercise-info { flex: 1; min-width: 0; }
-.exercise-name { font-size: 13px; font-weight: 500; color: var(--text); }
-.exercise-meta { font-size: 11px; font-family: var(--mono); color: var(--text3); margin-top: 2px; }
-.exercise-detail { display: none; background: var(--bg3); border-radius: 8px; padding: 10px; margin: 6px 0 4px; font-size: 12px; color: var(--text3); line-height: 1.6; }
-.exercise-detail.open { display: block; }
-
-/* TIPS */
-.tips-filter { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
-.filter-btn { font-size: 10px; font-family: var(--mono); padding: 5px 10px; border-radius: 20px; border: 0.5px solid var(--border); background: none; color: var(--text3); cursor: pointer; letter-spacing: 0.05em; transition: all 0.15s; }
-.filter-btn.active { background: var(--text); color: var(--bg); border-color: var(--text); }
-.tip-card { background: var(--bg2); border: 0.5px solid var(--border); border-radius: var(--r); padding: 14px; margin-bottom: 10px; display: none; }
-.tip-card.show { display: block; }
-.tip-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
-.tip-title { font-size: 13px; font-weight: 500; color: var(--text); flex: 1; margin-right: 8px; }
-.tip-text { font-size: 12px; color: var(--text3); line-height: 1.6; }
-.tip-more { font-size: 11px; font-family: var(--mono); color: var(--text3); background: none; border: none; cursor: pointer; margin-top: 8px; padding: 0; letter-spacing: 0.03em; }
-.tip-detail { display: none; background: var(--bg3); border-radius: 8px; padding: 10px; margin-top: 8px; font-size: 12px; color: var(--text3); line-height: 1.6; }
-.tip-detail.open { display: block; }
-.tbadge { font-size: 9px; font-family: var(--mono); padding: 3px 8px; border-radius: 4px; letter-spacing: 0.05em; text-transform: uppercase; flex-shrink: 0; }
-.tb-voeding { background: rgba(76,175,114,0.15); color: var(--green); }
-.tb-poles { background: rgba(74,144,217,0.15); color: var(--blue); }
-.tb-herstel { background: rgba(245,166,35,0.15); color: var(--accent2); }
-.tb-race { background: rgba(232,67,45,0.15); color: var(--accent); }
-.tb-raceweek { background: rgba(232,67,45,0.08); color: #E88A3D; }
-.tb-training { background: rgba(240,237,232,0.08); color: var(--text2); }
-.tb-mentaal { background: rgba(150,100,220,0.15); color: #B47EE5; }
-
-/* COACH / CHAT */
-.chat-wrap { display: flex; flex-direction: column; height: calc(100vh - 180px); }
-.chat-messages { flex: 1; overflow-y: auto; padding: 0 0 12px; }
-.chat-messages::-webkit-scrollbar { display: none; }
-.chat-msg { padding: 10px 13px; border-radius: 14px; margin-bottom: 8px; font-size: 13px; line-height: 1.6; max-width: 90%; }
-.chat-msg.user { background: var(--accent); color: white; margin-left: auto; border-bottom-right-radius: 4px; }
-.chat-msg.assistant { background: var(--bg2); color: var(--text); border: 0.5px solid var(--border); border-bottom-left-radius: 4px; }
-.chat-msg.thinking { color: var(--text3); font-style: italic; }
-.chat-input-area { flex-shrink: 0; padding-top: 10px; border-top: 0.5px solid var(--border); }
-.chat-row { display: flex; gap: 8px; }
-.chat-input { flex: 1; padding: 11px 14px; background: var(--bg2); border: 0.5px solid var(--border); border-radius: 22px; font-size: 13px; color: var(--text); font-family: var(--sans); outline: none; transition: border-color 0.15s; }
-.chat-input:focus { border-color: var(--text3); }
-.chat-input::placeholder { color: var(--text3); }
-.chat-send { width: 40px; height: 40px; border-radius: 50%; background: var(--accent); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; transition: opacity 0.15s; }
-.chat-send:disabled { opacity: 0.4; }
-.quick-chips { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 10px; }
-.quick-chips::-webkit-scrollbar { display: none; }
-.chip { font-size: 11px; font-family: var(--mono); padding: 6px 12px; border-radius: 20px; border: 0.5px solid var(--border); background: var(--bg2); color: var(--text2); cursor: pointer; white-space: nowrap; transition: all 0.15s; }
-.chip:active { background: var(--bg3); }
-.chat-error { background: rgba(232,67,45,0.1); border: 0.5px solid rgba(232,67,45,0.3); border-radius: 8px; padding: 10px; font-size: 12px; color: var(--accent); margin-bottom: 8px; display: none; }
-
-/* RACE GENERATOR */
-.form-group { margin-bottom: 14px; }
-.form-label { font-size: 10px; font-family: var(--mono); color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; display: block; }
-.form-input { width: 100%; padding: 11px 13px; background: var(--bg2); border: 0.5px solid var(--border); border-radius: 8px; font-size: 13px; color: var(--text); font-family: var(--sans); outline: none; transition: border-color 0.15s; -webkit-appearance: none; }
-.form-input:focus { border-color: var(--text3); }
-.form-input::placeholder { color: var(--text3); }
-.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.btn-generate { width: 100%; padding: 14px; background: var(--accent); color: white; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; font-family: var(--sans); cursor: pointer; margin-top: 6px; transition: opacity 0.15s; }
-.btn-generate:disabled { opacity: 0.5; cursor: not-allowed; }
-.btn-outline { width: 100%; padding: 12px; background: none; border: 0.5px solid var(--border); border-radius: 10px; font-size: 13px; color: var(--text2); font-family: var(--sans); cursor: pointer; margin-top: 8px; transition: all 0.15s; }
-.btn-outline:hover { border-color: var(--text3); color: var(--text); }
-.loading-state { text-align: center; padding: 30px 20px; }
-.spinner { width: 28px; height: 28px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto 12px; }
-@keyframes spin { to { transform: rotate(360deg); } }
-.loading-label { font-size: 12px; font-family: var(--mono); color: var(--text3); letter-spacing: 0.05em; }
-.plan-result { background: var(--bg2); border: 0.5px solid var(--border); border-radius: var(--r); padding: 16px; font-size: 13px; color: var(--text2); line-height: 1.8; white-space: pre-wrap; margin-bottom: 12px; max-height: 400px; overflow-y: auto; }
-.plan-result::-webkit-scrollbar { display: none; }
-.success-note { background: rgba(76,175,114,0.1); border: 0.5px solid rgba(76,175,114,0.3); border-radius: 8px; padding: 10px 12px; font-size: 12px; font-family: var(--mono); color: var(--green); margin-bottom: 12px; }
-.info-note { background: var(--bg3); border-radius: 8px; padding: 10px 12px; font-size: 12px; color: var(--text3); line-height: 1.6; margin-bottom: 12px; }
-
-/* API KEY SETUP */
-.setup-card { background: linear-gradient(135deg, #0E1A0A, #0A0E1A); border: 0.5px solid var(--border); border-radius: var(--r); padding: 16px; margin-bottom: 12px; }
-.setup-title { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 6px; }
-.setup-sub { font-size: 12px; color: var(--text3); line-height: 1.6; margin-bottom: 14px; }
+.ex-detail { display:none; background:var(--bg3); border-radius:8px; padding:10px; margin:6px 0 4px; font-size:12px; color:var(--text3); line-height:1.6; }
+.ex-detail.open { display:block; }
+.stretch-card { background:var(--bg2); border:0.5px solid var(--border); border-radius:var(--r); padding:14px; margin-bottom:10px; }
+.stretch-hdr { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+.stretch-title { font-size:14px; font-weight:500; color:var(--text); }
+.stretch-time { font-size:11px; font-family:var(--mono); color:var(--text3); }
+.stretch-row { display:flex; gap:12px; padding:10px 0; border-bottom:0.5px solid var(--border); cursor:pointer; align-items:flex-start; }
+.stretch-row:last-of-type { border-bottom:none; }
+.stretch-num { font-size:11px; font-family:var(--mono); color:var(--accent); width:20px; flex-shrink:0; margin-top:2px; }
+.stretch-info { flex:1; }
+.stretch-name { font-size:13px; font-weight:500; color:var(--text); }
+.stretch-dur { font-size:11px; font-family:var(--mono); color:var(--text3); margin-top:2px; }
+.stretch-desc { display:none; background:var(--bg3); border-radius:8px; padding:10px; margin-top:8px; font-size:12px; color:var(--text3); line-height:1.6; }
+.stretch-desc.open { display:block; }
+.tips-filter { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px; }
+.f-btn { font-size:10px; font-family:var(--mono); padding:5px 10px; border-radius:20px; border:0.5px solid var(--border); background:none; color:var(--text3); cursor:pointer; letter-spacing:0.05em; }
+.f-btn.active { background:var(--text); color:var(--bg); border-color:var(--text); }
+.tip-card { background:var(--bg2); border:0.5px solid var(--border); border-radius:var(--r); padding:14px; margin-bottom:10px; display:none; }
+.tip-card.show { display:block; }
+.tip-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:6px; }
+.tip-title { font-size:13px; font-weight:500; color:var(--text); flex:1; margin-right:8px; }
+.tip-text { font-size:12px; color:var(--text3); line-height:1.6; }
+.tip-more { font-size:11px; font-family:var(--mono); color:var(--text3); background:none; border:none; cursor:pointer; margin-top:8px; padding:0; }
+.tip-detail { display:none; background:var(--bg3); border-radius:8px; padding:10px; margin-top:8px; font-size:12px; color:var(--text3); line-height:1.6; }
+.tip-detail.open { display:block; }
+.tbadge { font-size:9px; font-family:var(--mono); padding:3px 8px; border-radius:4px; letter-spacing:0.05em; text-transform:uppercase; flex-shrink:0; }
+.tb-v { background:rgba(76,175,114,0.15); color:var(--green); }
+.tb-p { background:rgba(74,144,217,0.15); color:var(--blue); }
+.tb-h { background:rgba(245,166,35,0.15); color:var(--accent2); }
+.tb-r { background:rgba(232,67,45,0.15); color:var(--accent); }
+.tb-rw { background:rgba(232,67,45,0.08); color:#E88A3D; }
+.tb-tr { background:rgba(240,237,232,0.08); color:var(--text2); }
+.tb-m { background:rgba(150,100,220,0.15); color:#B47EE5; }
+.chat-wrap { display:flex; flex-direction:column; height:calc(100vh - 200px); }
+.chat-msgs { flex:1; overflow-y:auto; padding-bottom:12px; }
+.chat-msgs::-webkit-scrollbar { display:none; }
+.chat-msg { padding:10px 13px; border-radius:14px; margin-bottom:8px; font-size:13px; line-height:1.6; max-width:90%; }
+.msg-user { background:var(--accent); color:white; margin-left:auto; border-bottom-right-radius:4px; }
+.msg-ai { background:var(--bg2); color:var(--text); border:0.5px solid var(--border); border-bottom-left-radius:4px; }
+.chat-bottom { flex-shrink:0; padding-top:10px; border-top:0.5px solid var(--border); }
+.chips { display:flex; gap:6px; overflow-x:auto; padding-bottom:8px; }
+.chips::-webkit-scrollbar { display:none; }
+.chip { font-size:11px; font-family:var(--mono); padding:6px 12px; border-radius:20px; border:0.5px solid var(--border); background:var(--bg2); color:var(--text2); cursor:pointer; white-space:nowrap; }
+.chat-row { display:flex; gap:8px; }
+.chat-in { flex:1; padding:11px 14px; background:var(--bg2); border:0.5px solid var(--border); border-radius:22px; font-size:13px; color:var(--text); font-family:var(--sans); outline:none; }
+.chat-in::placeholder { color:var(--text3); }
+.chat-send { width:40px; height:40px; border-radius:50%; background:var(--accent); border:none; cursor:pointer; font-size:16px; flex-shrink:0; }
+.chat-send:disabled { opacity:0.4; }
+.chat-err { background:rgba(232,67,45,0.1); border:0.5px solid rgba(232,67,45,0.3); border-radius:8px; padding:10px; font-size:12px; color:var(--accent); margin-bottom:8px; display:none; }
+.form-group { margin-bottom:14px; }
+.form-label { font-size:10px; font-family:var(--mono); color:var(--text3); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:6px; display:block; }
+.form-input { width:100%; padding:11px 13px; background:var(--bg2); border:0.5px solid var(--border); border-radius:8px; font-size:13px; color:var(--text); font-family:var(--sans); outline:none; -webkit-appearance:none; }
+.form-input::placeholder { color:var(--text3); }
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.btn-gen { width:100%; padding:14px; background:var(--accent); color:white; border:none; border-radius:10px; font-size:14px; font-weight:600; font-family:var(--sans); cursor:pointer; margin-top:6px; }
+.btn-gen:disabled { opacity:0.5; }
+.btn-out { width:100%; padding:12px; background:none; border:0.5px solid var(--border); border-radius:10px; font-size:13px; color:var(--text2); font-family:var(--sans); cursor:pointer; margin-top:8px; }
+.spin-wrap { text-align:center; padding:30px 20px; }
+.spinner { width:28px; height:28px; border:2px solid var(--border); border-top-color:var(--accent); border-radius:50%; animation:spin 0.7s linear infinite; margin:0 auto 12px; }
+@keyframes spin { to { transform:rotate(360deg); } }
+.spin-label { font-size:12px; font-family:var(--mono); color:var(--text3); }
+.plan-result { background:var(--bg2); border:0.5px solid var(--border); border-radius:var(--r); padding:16px; font-size:13px; color:var(--text2); line-height:1.8; white-space:pre-wrap; margin-bottom:12px; max-height:400px; overflow-y:auto; }
+.plan-result::-webkit-scrollbar { display:none; }
+.ok-note { background:rgba(76,175,114,0.1); border:0.5px solid rgba(76,175,114,0.3); border-radius:8px; padding:10px 12px; font-size:12px; font-family:var(--mono); color:var(--green); margin-bottom:12px; }
+.profile-row { display:flex; justify-content:space-between; padding:8px 0; border-bottom:0.5px solid var(--border); }
+.profile-label { font-size:12px; color:var(--text3); }
+.profile-val { font-size:12px; font-family:var(--mono); color:var(--text2); text-align:right; }
 </style>
 </head>
 <body>
 <div class="app">
   <div class="header">
-    <div class="header-left">
+    <div>
       <div class="app-name">Trail Coach</div>
       <div class="page-title" id="page-title">Dashboard</div>
     </div>
@@ -228,216 +196,292 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
     <div id="s-home" class="section active">
       <div class="goal-card">
         <div class="goal-tag">🏔 Actieve race</div>
-        <div class="goal-name" id="race-display-name">Trail 50km</div>
-        <div class="goal-meta" id="race-display-meta">21 juni 2026 · Doel: sub 7 uur</div>
+        <div class="goal-name" id="r-display-name">Trail 50km</div>
+        <div class="goal-meta" id="r-display-meta">21 juni 2026 · Doel: sub 7 uur</div>
         <div class="goal-stats">
           <div class="goal-stat"><div class="goal-stat-num" id="cnt-days">—</div><div class="goal-stat-label">Dagen</div></div>
           <div class="goal-stat"><div class="goal-stat-num" id="cnt-km">50</div><div class="goal-stat-label">km</div></div>
-          <div class="goal-stat"><div class="goal-stat-num" id="cnt-dplus">2000</div><div class="goal-stat-label">D+ m</div></div>
-          <div class="goal-stat"><div class="goal-stat-num" id="cnt-weeks">7</div><div class="goal-stat-label">Weken</div></div>
+          <div class="goal-stat"><div class="goal-stat-num" id="cnt-dp">2000</div><div class="goal-stat-label">D+ m</div></div>
+          <div class="goal-stat"><div class="goal-stat-num" id="cnt-wk">7</div><div class="goal-stat-label">Weken</div></div>
         </div>
-        <div class="progress-track"><div class="progress-fill" id="prog" style="width:5%"></div></div>
+        <div class="prog-track"><div class="prog-fill" id="prog" style="width:5%"></div></div>
       </div>
 
-      <div class="sec-label">Deze week</div>
+      <div class="sec-label">Afgelopen 4 weken</div>
       <div class="stat-grid">
-        <div class="stat-box"><div class="stat-box-label">Afstand</div><div class="stat-box-value">45 <span class="stat-box-unit">km</span></div></div>
-        <div class="stat-box"><div class="stat-box-label">Hoogte</div><div class="stat-box-value">966 <span class="stat-box-unit">m</span></div></div>
-        <div class="stat-box"><div class="stat-box-label">Tijd</div><div class="stat-box-value">5:10 <span class="stat-box-unit">u</span></div></div>
-        <div class="stat-box"><div class="stat-box-label">Runs</div><div class="stat-box-value">2 <span class="stat-box-unit">runs</span></div></div>
+        <div class="stat-box"><div class="stat-label">Gem. week km</div><div class="stat-value">~58 <span class="stat-unit">km</span></div></div>
+        <div class="stat-box"><div class="stat-label">Gem. Z2 pace</div><div class="stat-value">5:35 <span class="stat-unit">/km</span></div></div>
+        <div class="stat-box"><div class="stat-label">Trail runs</div><div class="stat-value">4 <span class="stat-unit">runs</span></div></div>
+        <div class="stat-box"><div class="stat-label">Langste run</div><div class="stat-value">25 <span class="stat-unit">km</span></div></div>
       </div>
 
       <div class="sec-label">Recente activiteit</div>
-      <div class="run-card" onclick="quickAsk('Analyseer mijn trail run van 21 april: 20km, 966m D+, 7:45/km, 161bpm gemiddeld. Geef feedback voor mijn 50km race voorbereiding.')">
-        <div class="run-card-top"><div class="run-card-name">Lansingerland Trail</div><div class="run-card-date">21 apr</div></div>
-        <div class="run-card-stats"><div class="run-card-stat"><span>20</span> km</div><div class="run-card-stat"><span>966</span> m D+</div><div class="run-card-stat"><span>161</span> bpm</div></div>
-        <span class="badge b-trail">Trail</span>
+      <div class="run-card" onclick="quickAsk('Analyseer mijn run van 2 mei: 10km Rotterdam, 6:01/km, 143bpm. Dit lijkt een herstelrun. Klopt dat voor mijn 50km voorbereiding?')">
+        <div class="run-top"><div class="run-name">Rotterdam Hardlopen</div><div class="run-date">2 mei</div></div>
+        <div class="run-stats"><div class="run-stat"><span>10</span> km</div><div class="run-stat"><span>6:01</span> /km</div><div class="run-stat"><span>143</span> bpm</div></div>
+        <span class="badge b-road">Herstel</span>
       </div>
-      <div class="run-card" onclick="quickAsk('Analyseer mijn duurloop van 20 april: 25km vlak, 5:40/km, 148bpm. Hoe verhoudt dit tot mijn doel sub 7 uur op 50km met 2000m D+?')">
-        <div class="run-card-top"><div class="run-card-name">Duurloop 25km</div><div class="run-card-date">20 apr</div></div>
-        <div class="run-card-stats"><div class="run-card-stat"><span>25</span> km</div><div class="run-card-stat"><span>5:40</span> /km</div><div class="run-card-stat"><span>148</span> bpm</div></div>
-        <span class="badge b-road">Weg</span>
+      <div class="run-card" onclick="quickAsk('Analyseer mijn Z2 run van 30 april: 10km, 5:57/km, 145bpm. Is dit de juiste intensiteit voor mijn 50km voorbereiding?')">
+        <div class="run-top"><div class="run-name">Rotterdam Z2</div><div class="run-date">30 apr</div></div>
+        <div class="run-stats"><div class="run-stat"><span>10</span> km</div><div class="run-stat"><span>5:57</span> /km</div><div class="run-stat"><span>145</span> bpm</div></div>
+        <span class="badge b-road">Z2</span>
+      </div>
+      <div class="run-card" onclick="quickAsk('Analyseer mijn lange duurloop van 28 april: 25km, 5:40/km, 148bpm. Dit is mijn langste vlakke run. Wat zegt dit over mijn race voorbereiding?')">
+        <div class="run-top"><div class="run-name">Z2 Endurance Run</div><div class="run-date">28 apr</div></div>
+        <div class="run-stats"><div class="run-stat"><span>25</span> km</div><div class="run-stat"><span>5:40</span> /km</div><div class="run-stat"><span>148</span> bpm</div></div>
+        <span class="badge b-road">Endurance</span>
+      </div>
+      <div class="run-card" onclick="quickAsk('Analyseer mijn Sweetspot run van 26 april: 11km, 5:26/km, 153bpm. Is dit het juiste tempo voor mijn sweetspot training?')">
+        <div class="run-top"><div class="run-name">Sweetspot 2</div><div class="run-date">26 apr</div></div>
+        <div class="run-stats"><div class="run-stat"><span>11</span> km</div><div class="run-stat"><span>5:26</span> /km</div><div class="run-stat"><span>153</span> bpm</div></div>
+        <span class="badge b-tempo">Sweetspot</span>
+      </div>
+      <div class="run-card" onclick="quickAsk('Analyseer mijn trail run van 21 april bij Lansingerland: 20km, 7:45/km, 161bpm, 966m hoogte. Geef feedback voor mijn 50km race voorbereiding.')">
+        <div class="run-top"><div class="run-name">Lansingerland Trail</div><div class="run-date">21 apr</div></div>
+        <div class="run-stats"><div class="run-stat"><span>20</span> km</div><div class="run-stat"><span>966</span> m D+</div><div class="run-stat"><span>161</span> bpm</div></div>
+        <span class="badge b-trail">Trail</span>
       </div>
     </div>
 
     <!-- PLAN -->
     <div id="s-plan" class="section">
       <div id="plan-container">
-        <div class="info-note">📅 Klik op een week voor details. Wil je een nieuw plan? Ga naar de Race tab.</div>
+        <div class="info-note">📍 Rotterdam plan: 5-6 dagen vlak + 1-2 dagen heuvel Hoge Bergse Bos. Klik een week open voor details.</div>
 
-        <div class="week-card"><div class="week-card-header" onclick="toggleWeek('pw1')"><div><div class="week-card-title">Week 1 — Basis opbouw</div><div class="week-card-sub">Aerobe basis · poles intro</div></div><span class="phase-tag phase-build">Build</span></div><div class="week-meta"><div class="week-meta-item"><span>55</span> km</div><div class="week-meta-item"><span>8:30</span> TOF</div><div class="week-meta-item"><span>1200</span>m D+</div></div><div class="week-days" id="pw1"><div class="day-row"><div class="day-name">Ma</div><div class="day-bar-track"><div class="day-bar-fill" style="width:0%"></div></div><div class="day-desc">Rust</div></div><div class="day-row"><div class="day-name">Di</div><div class="day-bar-track"><div class="day-bar-fill bar-easy" style="width:40%"></div></div><div class="day-desc">10km &lt;145bpm</div></div><div class="day-row"><div class="day-name">Wo</div><div class="day-bar-track"><div class="day-bar-fill bar-mod" style="width:60%"></div></div><div class="day-desc">12km heuvels</div></div><div class="day-row"><div class="day-name">Do</div><div class="day-bar-track"><div class="day-bar-fill bar-easy" style="width:30%"></div></div><div class="day-desc">8km herstel</div></div><div class="day-row"><div class="day-name">Vr</div><div class="day-bar-track"><div class="day-bar-fill" style="width:0%"></div></div><div class="day-desc">Rust + Kracht A</div></div><div class="day-row"><div class="day-name">Za</div><div class="day-bar-track"><div class="day-bar-fill bar-mod" style="width:70%"></div></div><div class="day-desc">15km trail</div></div><div class="day-row"><div class="day-name">Zo</div><div class="day-bar-track"><div class="day-bar-fill bar-easy" style="width:40%"></div></div><div class="day-desc">10km duur</div></div><div class="tof-note"><strong>Time on feet:</strong> Za wandel laatste 3km. Wen aan poles.</div></div></div>
+        <div class="week-card"><div class="week-hdr" onclick="tw('pw1')"><div><div class="week-title">Week 1 — Basis opbouw</div><div class="week-sub">Vlak + heuvel intro</div></div><span class="phase-tag ph-build">Build</span></div><div class="week-meta"><div class="week-meta-item"><span>55</span> km</div><div class="week-meta-item"><span>8:30</span> TOF</div><div class="week-meta-item"><span>~500</span>m D+</div></div><div class="week-days" id="pw1"><div class="day-row"><div class="day-nm">Ma</div><div class="day-track"><div class="day-fill" style="width:0%"></div></div><div class="day-desc">Rust</div></div><div class="day-row"><div class="day-nm">Di</div><div class="day-track"><div class="day-fill bar-e" style="width:40%"></div></div><div class="day-desc">10km Z2 &lt;145bpm</div></div><div class="day-row"><div class="day-nm">Wo</div><div class="day-track"><div class="day-fill bar-m" style="width:60%"></div></div><div class="day-desc">11km Sweetspot</div></div><div class="day-row"><div class="day-nm">Do</div><div class="day-track"><div class="day-fill bar-e" style="width:30%"></div></div><div class="day-desc">8km herstel</div></div><div class="day-row"><div class="day-nm">Vr</div><div class="day-track"><div class="day-fill" style="width:0%"></div></div><div class="day-desc">Rust + Kracht A</div></div><div class="day-row"><div class="day-nm">Za</div><div class="day-track"><div class="day-fill bar-h" style="width:85%"></div></div><div class="day-desc">Heuvel 15×</div></div><div class="day-row"><div class="day-nm">Zo</div><div class="day-track"><div class="day-fill bar-e" style="width:45%"></div></div><div class="day-desc">12km Z2 duur</div></div><div class="tof-note"><strong>Heuvel workout:</strong> 15× omhoog rennen, wandelen terug. ≈400m D+. Begin met poles om te wennen.</div></div></div>
 
-        <div class="week-card"><div class="week-card-header" onclick="toggleWeek('pw2')"><div><div class="week-card-title">Week 2 — Volumeopbouw</div><div class="week-card-sub">Back-to-back · meer D+</div></div><span class="phase-tag phase-build">Build</span></div><div class="week-meta"><div class="week-meta-item"><span>60</span> km</div><div class="week-meta-item"><span>9:30</span> TOF</div><div class="week-meta-item"><span>1500</span>m D+</div></div><div class="week-days" id="pw2"><div class="day-row"><div class="day-name">Ma</div><div class="day-bar-track"><div class="day-bar-fill" style="width:0%"></div></div><div class="day-desc">Rust</div></div><div class="day-row"><div class="day-name">Di</div><div class="day-bar-track"><div class="day-bar-fill bar-easy" style="width:40%"></div></div><div class="day-desc">10km makkelijk</div></div><div class="day-row"><div class="day-name">Wo</div><div class="day-bar-track"><div class="day-bar-fill bar-hard" style="width:80%"></div></div><div class="day-desc">14km interval</div></div><div class="day-row"><div class="day-name">Do</div><div class="day-bar-track"><div class="day-bar-fill bar-easy" style="width:30%"></div></div><div class="day-desc">8km herstel</div></div><div class="day-row"><div class="day-name">Vr</div><div class="day-bar-track"><div class="day-bar-fill" style="width:0%"></div></div><div class="day-desc">Rust + Kracht B</div></div><div class="day-row"><div class="day-name">Za</div><div class="day-bar-track"><div class="day-bar-fill bar-hard" style="width:100%"></div></div><div class="day-desc">22km trail</div></div><div class="day-row"><div class="day-name">Zo</div><div class="day-bar-track"><div class="day-bar-fill bar-mod" style="width:50%"></div></div><div class="day-desc">12km duur</div></div><div class="tof-note"><strong>Time on feet:</strong> Za+Zo back-to-back. Zo bewust langzamer.</div></div></div>
+        <div class="week-card"><div class="week-hdr" onclick="tw('pw2')"><div><div class="week-title">Week 2 — Volumeopbouw</div><div class="week-sub">Meer volume + lange Z2</div></div><span class="phase-tag ph-build">Build</span></div><div class="week-meta"><div class="week-meta-item"><span>60</span> km</div><div class="week-meta-item"><span>9:30</span> TOF</div><div class="week-meta-item"><span>~600</span>m D+</div></div><div class="week-days" id="pw2"><div class="day-row"><div class="day-nm">Ma</div><div class="day-track"><div class="day-fill" style="width:0%"></div></div><div class="day-desc">Rust</div></div><div class="day-row"><div class="day-nm">Di</div><div class="day-track"><div class="day-fill bar-e" style="width:40%"></div></div><div class="day-desc">10km Z2</div></div><div class="day-row"><div class="day-nm">Wo</div><div class="day-track"><div class="day-fill bar-m" style="width:65%"></div></div><div class="day-desc">14km Z2 Endurance</div></div><div class="day-row"><div class="day-nm">Do</div><div class="day-track"><div class="day-fill bar-e" style="width:30%"></div></div><div class="day-desc">8km herstel</div></div><div class="day-row"><div class="day-nm">Vr</div><div class="day-track"><div class="day-fill" style="width:0%"></div></div><div class="day-desc">Rust + Kracht B</div></div><div class="day-row"><div class="day-nm">Za</div><div class="day-track"><div class="day-fill bar-h" style="width:100%"></div></div><div class="day-desc">Lansingerland 20km</div></div><div class="day-row"><div class="day-nm">Zo</div><div class="day-track"><div class="day-fill bar-e" style="width:45%"></div></div><div class="day-desc">10km Z2 herstel</div></div><div class="tof-note"><strong>Time on feet:</strong> Za Lansingerland: focus op poles techniek en cadans 170spm. Zo bewust langzamer dan za.</div></div></div>
 
-        <div class="week-card"><div class="week-card-header" onclick="toggleWeek('pw3')"><div><div class="week-card-title">Week 3 — Piekweek 1</div><div class="week-card-sub">Nieuw record: 32km trail</div></div><span class="phase-tag phase-peak">Piek</span></div><div class="week-meta"><div class="week-meta-item"><span>65</span> km</div><div class="week-meta-item"><span>11:00</span> TOF</div><div class="week-meta-item"><span>2000</span>m D+</div></div><div class="week-days" id="pw3"><div class="day-row"><div class="day-name">Ma</div><div class="day-bar-track"><div class="day-bar-fill" style="width:0%"></div></div><div class="day-desc">Rust</div></div><div class="day-row"><div class="day-name">Di</div><div class="day-bar-track"><div class="day-bar-fill bar-easy" style="width:40%"></div></div><div class="day-desc">10km makkelijk</div></div><div class="day-row"><div class="day-name">Wo</div><div class="day-bar-track"><div class="day-bar-fill bar-mod" style="width:65%"></div></div><div class="day-desc">14km tempo</div></div><div class="day-row"><div class="day-name">Do</div><div class="day-bar-track"><div class="day-bar-fill bar-easy" style="width:30%"></div></div><div class="day-desc">8km herstel</div></div><div class="day-row"><div class="day-name">Vr</div><div class="day-bar-track"><div class="day-bar-fill" style="width:0%"></div></div><div class="day-desc">Rust</div></div><div class="day-row"><div class="day-name">Za</div><div class="day-bar-track"><div class="day-bar-fill bar-hard" style="width:100%"></div></div><div class="day-desc">32km trail + poles</div></div><div class="day-row"><div class="day-name">Zo</div><div class="day-bar-track"><div class="day-bar-fill bar-easy" style="width:30%"></div></div><div class="day-desc">8km wandel</div></div><div class="tof-note"><strong>Time on feet:</strong> 32km doel: 5+ uur. Tempo is bijzaak!</div></div></div>
+        <div class="week-card"><div class="week-hdr" onclick="tw('pw3')"><div><div class="week-title">Week 3 — Piekweek 1</div><div class="week-sub">Langste run ooit: 32km trail</div></div><span class="phase-tag ph-peak">Piek</span></div><div class="week-meta"><div class="week-meta-item"><span>65</span> km</div><div class="week-meta-item"><span>11:00</span> TOF</div><div class="week-meta-item"><span>~1200</span>m D+</div></div><div class="week-days" id="pw3"><div class="day-row"><div class="day-nm">Ma</div><div class="day-track"><div class="day-fill" style="width:0%"></div></div><div class="day-desc">Rust</div></div><div class="day-row"><div class="day-nm">Di</div><div class="day-track"><div class="day-fill bar-e" style="width:40%"></div></div><div class="day-desc">10km Z2</div></div><div class="day-row"><div class="day-nm">Wo</div><div class="day-track"><div class="day-fill bar-m" style="width:65%"></div></div><div class="day-desc">Heuvel 20×</div></div><div class="day-row"><div class="day-nm">Do</div><div class="day-track"><div class="day-fill bar-e" style="width:30%"></div></div><div class="day-desc">8km herstel</div></div><div class="day-row"><div class="day-nm">Vr</div><div class="day-track"><div class="day-fill" style="width:0%"></div></div><div class="day-desc">Rust</div></div><div class="day-row"><div class="day-nm">Za</div><div class="day-track"><div class="day-fill bar-h" style="width:100%"></div></div><div class="day-desc">Lansingerland 32km</div></div><div class="day-row"><div class="day-nm">Zo</div><div class="day-track"><div class="day-fill bar-e" style="width:30%"></div></div><div class="day-desc">8km wandel/loop</div></div><div class="tof-note"><strong>Time on feet:</strong> 32km doel: 5+ uur op de been. Tempo is bijzaak! Eet elke 45 min.</div></div></div>
 
-        <div class="week-card"><div class="week-card-header" onclick="toggleWeek('pw4')"><div><div class="week-card-title">Week 4 — Herstelweek</div><div class="week-card-sub">Actief herstel · lager volume</div></div><span class="phase-tag phase-build">Herstel</span></div><div class="week-meta"><div class="week-meta-item"><span>45</span> km</div><div class="week-meta-item"><span>7:00</span> TOF</div><div class="week-meta-item"><span>800</span>m D+</div></div><div class="week-days" id="pw4"><div class="day-row"><div class="day-name">Ma</div><div class="day-bar-track"><div class="day-bar-fill" style="width:0%"></div></div><div class="day-desc">Rust</div></div><div class="day-row"><div class="day-name">Di</div><div class="day-bar-track"><div class="day-bar-fill bar-easy" style="width:35%"></div></div><div class="day-desc">8km makkelijk</div></div><div class="day-row"><div class="day-name">Wo</div><div class="day-bar-track"><div class="day-bar-fill bar-mod" style="width:50%"></div></div><div class="day-desc">12km heuvels</div></div><div class="day-row"><div class="day-name">Do</div><div class="day-bar-track"><div class="day-bar-fill" style="width:0%"></div></div><div class="day-desc">Rust + Kracht A</div></div><div class="day-row"><div class="day-name">Vr</div><div class="day-bar-track"><div class="day-bar-fill bar-easy" style="width:30%"></div></div><div class="day-desc">8km herstel</div></div><div class="day-row"><div class="day-name">Za</div><div class="day-bar-track"><div class="day-bar-fill bar-mod" style="width:70%"></div></div><div class="day-desc">18km trail</div></div><div class="day-row"><div class="day-name">Zo</div><div class="day-bar-track"><div class="day-bar-fill" style="width:0%"></div></div><div class="day-desc">Rust</div></div><div class="tof-note"><strong>Time on feet:</strong> Herstelweek. Extra slaap bij ploegendienst.</div></div></div>
+        <div class="week-card"><div class="week-hdr" onclick="tw('pw4')"><div><div class="week-title">Week 4 — Herstelweek</div><div class="week-sub">Actief herstel · lager volume</div></div><span class="phase-tag ph-herstel">Herstel</span></div><div class="week-meta"><div class="week-meta-item"><span>45</span> km</div><div class="week-meta-item"><span>7:00</span> TOF</div><div class="week-meta-item"><span>~300</span>m D+</div></div><div class="week-days" id="pw4"><div class="day-row"><div class="day-nm">Ma</div><div class="day-track"><div class="day-fill" style="width:0%"></div></div><div class="day-desc">Rust</div></div><div class="day-row"><div class="day-nm">Di</div><div class="day-track"><div class="day-fill bar-e" style="width:35%"></div></div><div class="day-desc">8km Z2</div></div><div class="day-row"><div class="day-nm">Wo</div><div class="day-track"><div class="day-fill bar-e" style="width:45%"></div></div><div class="day-desc">10km Sweetspot</div></div><div class="day-row"><div class="day-nm">Do</div><div class="day-track"><div class="day-fill" style="width:0%"></div></div><div class="day-desc">Rust + Kracht A</div></div><div class="day-row"><div class="day-nm">Vr</div><div class="day-track"><div class="day-fill bar-e" style="width:30%"></div></div><div class="day-desc">8km herstel</div></div><div class="day-row"><div class="day-nm">Za</div><div class="day-track"><div class="day-fill bar-m" style="width:65%"></div></div><div class="day-desc">Heuvel 12× + 5km</div></div><div class="day-row"><div class="day-nm">Zo</div><div class="day-track"><div class="day-fill" style="width:0%"></div></div><div class="day-desc">Rust</div></div><div class="tof-note"><strong>Time on feet:</strong> Herstelweek. Extra slaap bij ploegendiensten.</div></div></div>
 
-        <div class="week-card"><div class="week-card-header" onclick="toggleWeek('pw5')"><div><div class="week-card-title">Week 5 — Piekweek 2</div><div class="week-card-sub">Race simulatie 38km</div></div><span class="phase-tag phase-peak">Piek</span></div><div class="week-meta"><div class="week-meta-item"><span>65</span> km</div><div class="week-meta-item"><span>11:30</span> TOF</div><div class="week-meta-item"><span>2200</span>m D+</div></div><div class="week-days" id="pw5"><div class="day-row"><div class="day-name">Ma</div><div class="day-bar-track"><div class="day-bar-fill" style="width:0%"></div></div><div class="day-desc">Rust</div></div><div class="day-row"><div class="day-name">Di</div><div class="day-bar-track"><div class="day-bar-fill bar-easy" style="width:40%"></div></div><div class="day-desc">10km makkelijk</div></div><div class="day-row"><div class="day-name">Wo</div><div class="day-bar-track"><div class="day-bar-fill bar-hard" style="width:80%"></div></div><div class="day-desc">14km race tempo</div></div><div class="day-row"><div class="day-name">Do</div><div class="day-bar-track"><div class="day-bar-fill bar-easy" style="width:30%"></div></div><div class="day-desc">8km herstel</div></div><div class="day-row"><div class="day-name">Vr</div><div class="day-bar-track"><div class="day-bar-fill" style="width:0%"></div></div><div class="day-desc">Rust</div></div><div class="day-row"><div class="day-name">Za</div><div class="day-bar-track"><div class="day-bar-fill bar-hard" style="width:100%"></div></div><div class="day-desc">38km race sim</div></div><div class="day-row"><div class="day-name">Zo</div><div class="day-bar-track"><div class="day-bar-fill bar-easy" style="width:30%"></div></div><div class="day-desc">8km wandel</div></div><div class="tof-note"><strong>Time on feet:</strong> 38km met race voeding + poles. Doel 5:30-6:00u.</div></div></div>
+        <div class="week-card"><div class="week-hdr" onclick="tw('pw5')"><div><div class="week-title">Week 5 — Piekweek 2</div><div class="week-sub">Race simulatie 38km trail</div></div><span class="phase-tag ph-peak">Piek</span></div><div class="week-meta"><div class="week-meta-item"><span>65</span> km</div><div class="week-meta-item"><span>11:30</span> TOF</div><div class="week-meta-item"><span>~1400</span>m D+</div></div><div class="week-days" id="pw5"><div class="day-row"><div class="day-nm">Ma</div><div class="day-track"><div class="day-fill" style="width:0%"></div></div><div class="day-desc">Rust</div></div><div class="day-row"><div class="day-nm">Di</div><div class="day-track"><div class="day-fill bar-e" style="width:40%"></div></div><div class="day-desc">10km Z2</div></div><div class="day-row"><div class="day-nm">Wo</div><div class="day-track"><div class="day-fill bar-m" style="width:70%"></div></div><div class="day-desc">Heuvel 25×</div></div><div class="day-row"><div class="day-nm">Do</div><div class="day-track"><div class="day-fill bar-e" style="width:30%"></div></div><div class="day-desc">8km herstel</div></div><div class="day-row"><div class="day-nm">Vr</div><div class="day-track"><div class="day-fill" style="width:0%"></div></div><div class="day-desc">Rust</div></div><div class="day-row"><div class="day-nm">Za</div><div class="day-track"><div class="day-fill bar-h" style="width:100%"></div></div><div class="day-desc">Lansingerland 38km</div></div><div class="day-row"><div class="day-nm">Zo</div><div class="day-track"><div class="day-fill bar-e" style="width:30%"></div></div><div class="day-desc">8km wandel</div></div><div class="tof-note"><strong>Time on feet:</strong> 38km race simulatie met poles + race voeding. Doel: 5:30-6:00u op de been.</div></div></div>
 
-        <div class="week-card"><div class="week-card-header" onclick="toggleWeek('pw6')"><div><div class="week-card-title">Week 6 — Taper</div><div class="week-card-sub">Volume omlaag · benen vullen</div></div><span class="phase-tag phase-taper">Taper</span></div><div class="week-meta"><div class="week-meta-item"><span>40</span> km</div><div class="week-meta-item"><span>6:30</span> TOF</div><div class="week-meta-item"><span>600</span>m D+</div></div><div class="week-days" id="pw6"><div class="day-row"><div class="day-name">Ma</div><div class="day-bar-track"><div class="day-bar-fill" style="width:0%"></div></div><div class="day-desc">Rust</div></div><div class="day-row"><div class="day-name">Di</div><div class="day-bar-track"><div class="day-bar-fill bar-easy" style="width:30%"></div></div><div class="day-desc">8km makkelijk</div></div><div class="day-row"><div class="day-name">Wo</div><div class="day-bar-track"><div class="day-bar-fill bar-mod" style="width:55%"></div></div><div class="day-desc">10km tempo</div></div><div class="day-row"><div class="day-name">Do</div><div class="day-bar-track"><div class="day-bar-fill" style="width:0%"></div></div><div class="day-desc">Rust</div></div><div class="day-row"><div class="day-name">Vr</div><div class="day-bar-track"><div class="day-bar-fill bar-easy" style="width:25%"></div></div><div class="day-desc">6km makkelijk</div></div><div class="day-row"><div class="day-name">Za</div><div class="day-bar-track"><div class="day-bar-fill bar-mod" style="width:55%"></div></div><div class="day-desc">14km trail</div></div><div class="day-row"><div class="day-name">Zo</div><div class="day-bar-track"><div class="day-bar-fill" style="width:0%"></div></div><div class="day-desc">Rust</div></div><div class="tof-note"><strong>Time on feet:</strong> Voel je lui en fris? Dat klopt!</div></div></div>
+        <div class="week-card"><div class="week-hdr" onclick="tw('pw6')"><div><div class="week-title">Week 6 — Taper</div><div class="week-sub">Volume omlaag · benen vullen</div></div><span class="phase-tag ph-taper">Taper</span></div><div class="week-meta"><div class="week-meta-item"><span>40</span> km</div><div class="week-meta-item"><span>6:30</span> TOF</div><div class="week-meta-item"><span>~200</span>m D+</div></div><div class="week-days" id="pw6"><div class="day-row"><div class="day-nm">Ma</div><div class="day-track"><div class="day-fill" style="width:0%"></div></div><div class="day-desc">Rust</div></div><div class="day-row"><div class="day-nm">Di</div><div class="day-track"><div class="day-fill bar-e" style="width:30%"></div></div><div class="day-desc">8km Z2</div></div><div class="day-row"><div class="day-nm">Wo</div><div class="day-track"><div class="day-fill bar-m" style="width:55%"></div></div><div class="day-desc">10km Sweetspot</div></div><div class="day-row"><div class="day-nm">Do</div><div class="day-track"><div class="day-fill" style="width:0%"></div></div><div class="day-desc">Rust</div></div><div class="day-row"><div class="day-nm">Vr</div><div class="day-track"><div class="day-fill bar-e" style="width:25%"></div></div><div class="day-desc">6km makkelijk</div></div><div class="day-row"><div class="day-nm">Za</div><div class="day-track"><div class="day-fill bar-m" style="width:55%"></div></div><div class="day-desc">Heuvel 8× + 5km</div></div><div class="day-row"><div class="day-nm">Zo</div><div class="day-track"><div class="day-fill" style="width:0%"></div></div><div class="day-desc">Rust</div></div><div class="tof-note"><strong>Time on feet:</strong> Voel je lui en fris? Dat klopt!</div></div></div>
 
-        <div class="week-card"><div class="week-card-header" onclick="toggleWeek('pw7')"><div><div class="week-card-title">Week 7 — Race week 🏁</div><div class="week-card-sub">21 juni — het is zover!</div></div><span class="phase-tag phase-race">Race</span></div><div class="week-meta"><div class="week-meta-item"><span>20</span> km</div><div class="week-meta-item"><span>sub 7</span> uur</div><div class="week-meta-item"><span>2000</span>m D+</div></div><div class="week-days" id="pw7"><div class="day-row"><div class="day-name">Ma</div><div class="day-bar-track"><div class="day-bar-fill bar-easy" style="width:20%"></div></div><div class="day-desc">6km inloopje</div></div><div class="day-row"><div class="day-name">Di</div><div class="day-bar-track"><div class="day-bar-fill" style="width:0%"></div></div><div class="day-desc">Rust</div></div><div class="day-row"><div class="day-name">Wo</div><div class="day-bar-track"><div class="day-bar-fill bar-easy" style="width:15%"></div></div><div class="day-desc">5km + strides</div></div><div class="day-row"><div class="day-name">Do</div><div class="day-bar-track"><div class="day-bar-fill" style="width:0%"></div></div><div class="day-desc">Rust + prep</div></div><div class="day-row"><div class="day-name">Vr</div><div class="day-bar-track"><div class="day-bar-fill" style="width:0%"></div></div><div class="day-desc">Gear check</div></div><div class="day-row"><div class="day-name">Za</div><div class="day-bar-track"><div class="day-bar-fill" style="width:0%"></div></div><div class="day-desc">Vroeg slapen</div></div><div class="day-row"><div class="day-name">Zo</div><div class="day-bar-track"><div class="day-bar-fill bar-hard" style="width:100%"></div></div><div class="day-desc">RACE DAY!</div></div><div class="tof-note"><strong>Strategie:</strong> Start op 8:50/km · Eet elke 45 min · Wandel steile klimmen</div></div></div>
+        <div class="week-card"><div class="week-hdr" onclick="tw('pw7')"><div><div class="week-title">Week 7 — Race week 🏁</div><div class="week-sub">21 juni — het is zover!</div></div><span class="phase-tag ph-race">Race</span></div><div class="week-meta"><div class="week-meta-item"><span>20</span> km</div><div class="week-meta-item"><span>sub 7</span> uur</div><div class="week-meta-item"><span>2000</span>m D+</div></div><div class="week-days" id="pw7"><div class="day-row"><div class="day-nm">Ma</div><div class="day-track"><div class="day-fill bar-e" style="width:20%"></div></div><div class="day-desc">6km inloopje</div></div><div class="day-row"><div class="day-nm">Di</div><div class="day-track"><div class="day-fill" style="width:0%"></div></div><div class="day-desc">Rust</div></div><div class="day-row"><div class="day-nm">Wo</div><div class="day-track"><div class="day-fill bar-e" style="width:15%"></div></div><div class="day-desc">5km + strides</div></div><div class="day-row"><div class="day-nm">Do</div><div class="day-track"><div class="day-fill" style="width:0%"></div></div><div class="day-desc">Rust + prep</div></div><div class="day-row"><div class="day-nm">Vr</div><div class="day-track"><div class="day-fill" style="width:0%"></div></div><div class="day-desc">Gear check</div></div><div class="day-row"><div class="day-nm">Za</div><div class="day-track"><div class="day-fill" style="width:0%"></div></div><div class="day-desc">Vroeg slapen</div></div><div class="day-row"><div class="day-nm">Zo</div><div class="day-track"><div class="day-fill bar-h" style="width:100%"></div></div><div class="day-desc">RACE DAY! 🏁</div></div><div class="tof-note"><strong>Strategie:</strong> Start op 8:50/km · Eet elke 45 min · Wandel steile klimmen met poles</div></div></div>
       </div>
     </div>
 
     <!-- KRACHT -->
     <div id="s-kracht" class="section">
       <div class="kracht-nav">
-        <button class="kracht-btn active" onclick="showKracht('k1',this)">Week 1-2</button>
-        <button class="kracht-btn" onclick="showKracht('k2',this)">Week 3-4</button>
-        <button class="kracht-btn" onclick="showKracht('k3',this)">Week 5-6</button>
-        <button class="kracht-btn" onclick="showKracht('k4',this)">Race week</button>
+        <button class="k-btn active" onclick="sk('k1',this)">Week 1-2</button>
+        <button class="k-btn" onclick="sk('k2',this)">Week 3-4</button>
+        <button class="k-btn" onclick="sk('k3',this)">Week 5-6</button>
+        <button class="k-btn" onclick="sk('k4',this)">Race week</button>
       </div>
-      <div class="info-note">💡 Focus: quads, glutes, core. Beschermt knieën bij 2000m afdaling.</div>
+      <div class="info-note">💡 Focus: quads, glutes, core. Beschermt knieën bij 2000m afdaling op de race.</div>
 
-      <div id="k1" class="kracht-section show">
+      <div id="k1" class="ks show">
         <div class="card">
           <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:2px;">Workout A — Benen & Glutes</div>
           <div style="font-size:11px;font-family:var(--mono);color:var(--text3);margin-bottom:12px;">3 sets · 45 sec rust · 25 min</div>
-          <div class="exercise-row" onclick="toggleEx(this)"><div class="exercise-icon">🦵</div><div class="exercise-info"><div class="exercise-name">Squat</div><div class="exercise-meta">3 × 12 reps · lichaamsgewicht</div></div></div>
-          <div class="exercise-detail">Voeten schouderbreedte, tenen licht naar buiten. Zak tot dijen parallel aan grond. Druk knieën actief naar buiten.</div>
-          <div class="exercise-row" onclick="toggleEx(this)"><div class="exercise-icon">🍑</div><div class="exercise-info"><div class="exercise-name">Glute Bridge</div><div class="exercise-meta">3 × 15 reps · elastiek optioneel</div></div></div>
-          <div class="exercise-detail">Lig op rug, knieën gebogen. Duw heupen omhoog, knijp bovenaan billen samen. Essentieel voor klimkracht.</div>
-          <div class="exercise-row" onclick="toggleEx(this)"><div class="exercise-icon">🚶</div><div class="exercise-info"><div class="exercise-name">Uitval (Lunge)</div><div class="exercise-meta">3 × 10 per been · lichaamsgewicht</div></div></div>
-          <div class="exercise-detail">Stap vooruit, zak recht omlaag. Voorste knie boven voet. Traint dezelfde beweging als klimmen op trail.</div>
-          <div class="exercise-row" onclick="toggleEx(this)"><div class="exercise-icon">🦶</div><div class="exercise-info"><div class="exercise-name">Kuit Raises</div><div class="exercise-meta">3 × 20 reps · traprand</div></div></div>
-          <div class="exercise-detail">Op rand van trapje. Hielen omlaag, duw op tenen omhoog. Cruciaal voor enkels op ongelijk terrein.</div>
+          <div class="ex-row" onclick="te(this)"><div class="ex-icon">🦵</div><div class="ex-info"><div class="ex-name">Squat</div><a class="vid-btn" href="https://www.youtube.com/watch?v=OhKt7NS99LI" target="_blank">▶ Bekijk video</a><div class="ex-meta">3 × 12 · lichaamsgewicht</div></div></div>
+          <div class="ex-detail">Voeten schouderbreedte, tenen licht naar buiten. Zak tot dijen parallel. Druk knieën actief naar buiten.</div>
+          <div class="ex-row" onclick="te(this)"><div class="ex-icon">🍑</div><div class="ex-info"><div class="ex-name">Glute Bridge</div><a class="vid-btn" href="https://www.youtube.com/watch?v=OUgsJ8-Vi0E" target="_blank">▶ Bekijk video</a><div class="ex-meta">3 × 15 · elastiek optioneel</div></div></div>
+          <div class="ex-detail">Lig op rug, knieën gebogen. Duw heupen omhoog, knijp bovenaan billen samen. Essentieel voor klimkracht bij poles.</div>
+          <div class="ex-row" onclick="te(this)"><div class="ex-icon">🚶</div><div class="ex-info"><div class="ex-name">Uitval (Lunge)</div><a class="vid-btn" href="https://www.youtube.com/watch?v=QOVaHwm-Q6U" target="_blank">▶ Bekijk video</a><div class="ex-meta">3 × 10 per been · lichaamsgewicht</div></div></div>
+          <div class="ex-detail">Stap vooruit, zak recht omlaag. Voorste knie boven voet. Traint klimbeweging op trail.</div>
+          <div class="ex-row" onclick="te(this)"><div class="ex-icon">🦶</div><div class="ex-info"><div class="ex-name">Kuit Raises</div><a class="vid-btn" href="https://www.youtube.com/watch?v=YMmgqO8-i_A" target="_blank">▶ Bekijk video</a><div class="ex-meta">3 × 20 · traprand</div></div></div>
+          <div class="ex-detail">Op rand trapje. Hielen omlaag, duw op tenen omhoog. Cruciaal voor enkels op de heuvel en trail.</div>
         </div>
         <div class="card">
           <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:2px;">Workout B — Core & Stabiliteit</div>
           <div style="font-size:11px;font-family:var(--mono);color:var(--text3);margin-bottom:12px;">3 sets · 30 sec rust · 25 min</div>
-          <div class="exercise-row" onclick="toggleEx(this)"><div class="exercise-icon">🏋️</div><div class="exercise-info"><div class="exercise-name">Plank</div><div class="exercise-meta">3 × 30 sec · lichaamsgewicht</div></div></div>
-          <div class="exercise-detail">Ellebogen onder schouders, romp strak. Geen hangende heupen. Core stabiliteit essentieel bij km 40.</div>
-          <div class="exercise-row" onclick="toggleEx(this)"><div class="exercise-icon">🔄</div><div class="exercise-info"><div class="exercise-name">Dead Bug</div><div class="exercise-meta">3 × 8 per kant · lichaamsgewicht</div></div></div>
-          <div class="exercise-detail">Lig op rug, armen omhoog, knieën 90°. Strek arm en tegenoverliggend been, rug blijft plat.</div>
-          <div class="exercise-row" onclick="toggleEx(this)"><div class="exercise-icon">↔️</div><div class="exercise-info"><div class="exercise-name">Clamshell</div><div class="exercise-meta">3 × 15 per kant · elastiek licht</div></div></div>
-          <div class="exercise-detail">Lig op zij, elastiek om knieën. Roteer bovenste knie omhoog. Traint heupabductoren voor kniestabiliteit.</div>
-          <div class="exercise-row" onclick="toggleEx(this)"><div class="exercise-icon">🦅</div><div class="exercise-info"><div class="exercise-name">Bird Dog</div><div class="exercise-meta">3 × 10 per kant · lichaamsgewicht</div></div></div>
-          <div class="exercise-detail">Op handen en knieën. Strek arm en tegenoverliggend been. Verbetert balans voor ongelijk terrein.</div>
+          <div class="ex-row" onclick="te(this)"><div class="ex-icon">🏋️</div><div class="ex-info"><div class="ex-name">Plank</div><a class="vid-btn" href="https://www.youtube.com/watch?v=B296mZDhrP4" target="_blank">▶ Bekijk video</a><div class="ex-meta">3 × 30 sec · lichaamsgewicht</div></div></div>
+          <div class="ex-detail">Ellebogen onder schouders, romp strak. Core stabiliteit essentieel bij km 40 van de race.</div>
+          <div class="ex-row" onclick="te(this)"><div class="ex-icon">🔄</div><div class="ex-info"><div class="ex-name">Dead Bug</div><a class="vid-btn" href="https://www.youtube.com/watch?v=4XLEnwUr1d8" target="_blank">▶ Bekijk video</a><div class="ex-meta">3 × 8 per kant · lichaamsgewicht</div></div></div>
+          <div class="ex-detail">Lig op rug, armen omhoog, knieën 90°. Strek arm en tegenoverliggend been, rug plat.</div>
+          <div class="ex-row" onclick="te(this)"><div class="ex-icon">↔️</div><div class="ex-info"><div class="ex-name">Clamshell</div><a class="vid-btn" href="https://www.youtube.com/watch?v=_a9BuUrMI9Y" target="_blank">▶ Bekijk video</a><div class="ex-meta">3 × 15 per kant · elastiek licht</div></div></div>
+          <div class="ex-detail">Lig op zij, elastiek om knieën. Roteer bovenste knie omhoog. Traint heupabductoren voor kniestabiliteit.</div>
+          <div class="ex-row" onclick="te(this)"><div class="ex-icon">🦅</div><div class="ex-info"><div class="ex-name">Bird Dog</div><a class="vid-btn" href="https://www.youtube.com/watch?v=wiFNA3sqjCA" target="_blank">▶ Bekijk video</a><div class="ex-meta">3 × 10 per kant · lichaamsgewicht</div></div></div>
+          <div class="ex-detail">Op handen en knieën. Strek arm en tegenoverliggend been. Verbetert balans voor ongelijk terrein.</div>
         </div>
       </div>
 
-      <div id="k2" class="kracht-section">
+      <div id="k2" class="ks">
+        <div class="info-note">📈 Week 3-4: kettlebell toegevoegd voor meer weerstand.</div>
         <div class="card">
           <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:2px;">Workout A — Explosieve kracht</div>
           <div style="font-size:11px;font-family:var(--mono);color:var(--text3);margin-bottom:12px;">3 sets · 60 sec rust · 30 min</div>
-          <div class="exercise-row" onclick="toggleEx(this)"><div class="exercise-icon">🏋️</div><div class="exercise-info"><div class="exercise-name">Goblet Squat</div><div class="exercise-meta">3 × 10 reps · 5kg kettlebell</div></div></div>
-          <div class="exercise-detail">Houd kettlebell voor borst. Squat diep met rechte rug. Bouwt quad kracht voor lange afdaling.</div>
-          <div class="exercise-row" onclick="toggleEx(this)"><div class="exercise-icon">🚀</div><div class="exercise-info"><div class="exercise-name">Step Up</div><div class="exercise-meta">3 × 10 per been · stoel of bank</div></div></div>
-          <div class="exercise-detail">Stap op stoel, duw omhoog via voorste been. Simuleert exact de klimbeweging op trail.</div>
-          <div class="exercise-row" onclick="toggleEx(this)"><div class="exercise-icon">🌉</div><div class="exercise-info"><div class="exercise-name">Single Leg Glute Bridge</div><div class="exercise-meta">3 × 10 per been · lichaamsgewicht</div></div></div>
-          <div class="exercise-detail">Glute bridge op één been. Veel zwaarder en traint balans voor ongelijk terrein.</div>
-          <div class="exercise-row" onclick="toggleEx(this)"><div class="exercise-icon">⚡</div><div class="exercise-info"><div class="exercise-name">Kettlebell Swing</div><div class="exercise-meta">3 × 12 reps · 5kg kettlebell</div></div></div>
-          <div class="exercise-detail">Swing kettlebell via explosieve heupen. Traint glute kracht voor klimmen met poles.</div>
+          <div class="ex-row" onclick="te(this)"><div class="ex-icon">🏋️</div><div class="ex-info"><div class="ex-name">Goblet Squat</div><a class="vid-btn" href="https://www.youtube.com/watch?v=MeIiIdhvXT4" target="_blank">▶ Bekijk video</a><div class="ex-meta">3 × 10 · 5kg kettlebell</div></div></div>
+          <div class="ex-detail">Houd kettlebell voor borst. Squat diep met rechte rug. Bouwt quad kracht voor afdaling.</div>
+          <div class="ex-row" onclick="te(this)"><div class="ex-icon">🚀</div><div class="ex-info"><div class="ex-name">Step Up</div><a class="vid-btn" href="https://www.youtube.com/watch?v=5JmWguyvu7Y" target="_blank">▶ Bekijk video</a><div class="ex-meta">3 × 10 per been · stoel</div></div></div>
+          <div class="ex-detail">Stap op stoel, duw omhoog via voorste been. Simuleert heuvel klimbeweging exact.</div>
+          <div class="ex-row" onclick="te(this)"><div class="ex-icon">🌉</div><div class="ex-info"><div class="ex-name">Single Leg Glute Bridge</div><a class="vid-btn" href="https://www.youtube.com/watch?v=Xh1TNGtCXQo" target="_blank">▶ Bekijk video</a><div class="ex-meta">3 × 10 per been · lichaamsgewicht</div></div></div>
+          <div class="ex-detail">Glute bridge op één been. Traint balans voor ongelijk terrein op de heuvel.</div>
+          <div class="ex-row" onclick="te(this)"><div class="ex-icon">⚡</div><div class="ex-info"><div class="ex-name">Kettlebell Swing</div><a class="vid-btn" href="https://www.youtube.com/watch?v=sSESeQAir2M" target="_blank">▶ Bekijk video</a><div class="ex-meta">3 × 12 · 5kg kettlebell</div></div></div>
+          <div class="ex-detail">Swing kettlebell via explosieve heupen. Traint explosieve glute kracht voor klimmen met poles.</div>
         </div>
         <div class="card">
           <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:2px;">Workout B — Core & Elastiek</div>
           <div style="font-size:11px;font-family:var(--mono);color:var(--text3);margin-bottom:12px;">3 sets · 45 sec rust · 25 min</div>
-          <div class="exercise-row" onclick="toggleEx(this)"><div class="exercise-icon">🏃</div><div class="exercise-info"><div class="exercise-name">Mountain Climbers</div><div class="exercise-meta">3 × 20 sec · lichaamsgewicht</div></div></div>
-          <div class="exercise-detail">In plankhouding, knieën snel afwisselend naar borst. Traint core onder hartslag.</div>
-          <div class="exercise-row" onclick="toggleEx(this)"><div class="exercise-icon">🏹</div><div class="exercise-info"><div class="exercise-name">Zijwaartse Stap</div><div class="exercise-meta">3 × 12 per kant · elastiek medium</div></div></div>
-          <div class="exercise-detail">Elastiek om enkels, lichte squat houding. Stap zijwaarts. Traint stabiliteit op trail.</div>
-          <div class="exercise-row" onclick="toggleEx(this)"><div class="exercise-icon">🏗️</div><div class="exercise-info"><div class="exercise-name">Copenhagen Plank</div><div class="exercise-meta">3 × 20 sec per kant · stoel</div></div></div>
-          <div class="exercise-detail">Zij-plank met bovenste voet op stoel. Hef heupen op. Beste oefening voor lies en core.</div>
+          <div class="ex-row" onclick="te(this)"><div class="ex-icon">🏃</div><div class="ex-info"><div class="ex-name">Mountain Climbers</div><a class="vid-btn" href="https://www.youtube.com/watch?v=nmwgirgXLYM" target="_blank">▶ Bekijk video</a><div class="ex-meta">3 × 20 sec · lichaamsgewicht</div></div></div>
+          <div class="ex-detail">In plankhouding, knieën snel afwisselend naar borst. Traint core onder hartslag.</div>
+          <div class="ex-row" onclick="te(this)"><div class="ex-icon">🏹</div><div class="ex-info"><div class="ex-name">Zijwaartse Stap</div><a class="vid-btn" href="https://www.youtube.com/watch?v=kgN5XCgFpzE" target="_blank">▶ Bekijk video</a><div class="ex-meta">3 × 12 per kant · elastiek medium</div></div></div>
+          <div class="ex-detail">Elastiek om enkels, lichte squat houding. Stap zijwaarts. Traint stabiliteit op ongelijk terrein.</div>
+          <div class="ex-row" onclick="te(this)"><div class="ex-icon">🏗️</div><div class="ex-info"><div class="ex-name">Copenhagen Plank</div><a class="vid-btn" href="https://www.youtube.com/watch?v=MYhxFZoVTYU" target="_blank">▶ Bekijk video</a><div class="ex-meta">3 × 20 sec per kant · stoel</div></div></div>
+          <div class="ex-detail">Zij-plank met bovenste voet op stoel. Beste oefening voor lies en core stabiliteit.</div>
         </div>
       </div>
 
-      <div id="k3" class="kracht-section">
-        <div class="info-note">🎯 Race specifieke kracht en pole kracht.</div>
+      <div id="k3" class="ks">
+        <div class="info-note">🎯 Week 5-6: race specifieke kracht en pole kracht.</div>
         <div class="card">
           <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:2px;">Workout A — Afdaling prep</div>
           <div style="font-size:11px;font-family:var(--mono);color:var(--text3);margin-bottom:12px;">3 sets · 60 sec rust · 25 min</div>
-          <div class="exercise-row" onclick="toggleEx(this)"><div class="exercise-icon">🦵</div><div class="exercise-info"><div class="exercise-name">Bulgarian Split Squat</div><div class="exercise-meta">3 × 8 per been · lichaamsgewicht</div></div></div>
-          <div class="exercise-detail">Achterste voet op stoel, voorste ver vooruit. Zak recht omlaag. Simuleert afdalingsbeweging. Beschermt knieën.</div>
-          <div class="exercise-row" onclick="toggleEx(this)"><div class="exercise-icon">⬇️</div><div class="exercise-info"><div class="exercise-name">Eccentrische Kuit Raises</div><div class="exercise-meta">3 × 15 reps · traprand</div></div></div>
-          <div class="exercise-detail">Omhoog op twee benen, omlaag op één been in 4 tellen. Versterkt achillespees voor lange afdaling.</div>
-          <div class="exercise-row" onclick="toggleEx(this)"><div class="exercise-icon">🔀</div><div class="exercise-info"><div class="exercise-name">Lateral Lunge</div><div class="exercise-meta">3 × 10 per kant · lichaamsgewicht</div></div></div>
-          <div class="exercise-detail">Stap zijwaarts, buig uitgestapt been. Traint zijwaartse stabiliteit op trail terrein.</div>
+          <div class="ex-row" onclick="te(this)"><div class="ex-icon">🦵</div><div class="ex-info"><div class="ex-name">Bulgarian Split Squat</div><a class="vid-btn" href="https://www.youtube.com/watch?v=2C-uNgKwPLE" target="_blank">▶ Bekijk video</a><div class="ex-meta">3 × 8 per been · lichaamsgewicht</div></div></div>
+          <div class="ex-detail">Achterste voet op stoel, voorste ver vooruit. Simuleert afdalingsbeweging. Beschermt knieën bij 2000m.</div>
+          <div class="ex-row" onclick="te(this)"><div class="ex-icon">⬇️</div><div class="ex-info"><div class="ex-name">Eccentrische Kuit Raises</div><a class="vid-btn" href="https://www.youtube.com/watch?v=svnzdtzXYeY" target="_blank">▶ Bekijk video</a><div class="ex-meta">3 × 15 · traprand</div></div></div>
+          <div class="ex-detail">Omhoog op twee benen, omlaag op één been in 4 tellen. Versterkt achillespees voor lange afdaling.</div>
+          <div class="ex-row" onclick="te(this)"><div class="ex-icon">🔀</div><div class="ex-info"><div class="ex-name">Lateral Lunge</div><a class="vid-btn" href="https://www.youtube.com/watch?v=gwLzBJYoWlI" target="_blank">▶ Bekijk video</a><div class="ex-meta">3 × 10 per kant · lichaamsgewicht</div></div></div>
+          <div class="ex-detail">Stap zijwaarts, buig uitgestapt been. Traint zijwaartse stabiliteit voor ongelijk terrein.</div>
         </div>
         <div class="card">
           <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:2px;">Workout B — Pole kracht</div>
           <div style="font-size:11px;font-family:var(--mono);color:var(--text3);margin-bottom:12px;">3 sets · 45 sec rust · 25 min</div>
-          <div class="exercise-row" onclick="toggleEx(this)"><div class="exercise-icon">💪</div><div class="exercise-info"><div class="exercise-name">Elastiek Tricep Push</div><div class="exercise-meta">3 × 15 reps · elastiek medium</div></div></div>
-          <div class="exercise-detail">Elastiek achter je vast, duw naar voren en omlaag. Simuleert pole-duwbeweging bij klimmen.</div>
-          <div class="exercise-row" onclick="toggleEx(this)"><div class="exercise-icon">🏗️</div><div class="exercise-info"><div class="exercise-name">Plank met Arm Lift</div><div class="exercise-meta">3 × 8 per kant · lichaamsgewicht</div></div></div>
-          <div class="exercise-detail">In plankhouding, til één arm op tot schouderhoogte. Combineert schouderkracht met core.</div>
-          <div class="exercise-row" onclick="toggleEx(this)"><div class="exercise-icon">🌀</div><div class="exercise-info"><div class="exercise-name">Kettlebell Halo</div><div class="exercise-meta">3 × 8 per richting · 5kg</div></div></div>
-          <div class="exercise-detail">Houd kettlebell voor borst. Beweeg in cirkel om hoofd. Traint schouderstabiliteit voor pole gebruik.</div>
+          <div class="ex-row" onclick="te(this)"><div class="ex-icon">💪</div><div class="ex-info"><div class="ex-name">Elastiek Tricep Push</div><a class="vid-btn" href="https://www.youtube.com/watch?v=nEF0bv2FW94" target="_blank">▶ Bekijk video</a><div class="ex-meta">3 × 15 · elastiek medium</div></div></div>
+          <div class="ex-detail">Elastiek achter je vast, duw naar voren en omlaag. Simuleert pole-duwbeweging bij klimmen.</div>
+          <div class="ex-row" onclick="te(this)"><div class="ex-icon">🏗️</div><div class="ex-info"><div class="ex-name">Plank met Arm Lift</div><a class="vid-btn" href="https://www.youtube.com/watch?v=2aUPVGLAPWE" target="_blank">▶ Bekijk video</a><div class="ex-meta">3 × 8 per kant · lichaamsgewicht</div></div></div>
+          <div class="ex-detail">In plankhouding, til één arm op. Combineert schouderkracht met core voor pole gebruik.</div>
+          <div class="ex-row" onclick="te(this)"><div class="ex-icon">🌀</div><div class="ex-info"><div class="ex-name">Kettlebell Halo</div><a class="vid-btn" href="https://www.youtube.com/watch?v=HsqsOJdBBpA" target="_blank">▶ Bekijk video</a><div class="ex-meta">3 × 8 per richting · 5kg</div></div></div>
+          <div class="ex-detail">Houd kettlebell voor borst. Beweeg in cirkel om hoofd. Schouderstabiliteit voor langdurig pole gebruik.</div>
         </div>
       </div>
 
-      <div id="k4" class="kracht-section">
+      <div id="k4" class="ks">
         <div class="info-note">⚠️ Race week: geen zware kracht! Alleen lichte activatie op ma en wo.</div>
         <div class="card">
           <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:2px;">Activatie — 15 minuten</div>
           <div style="font-size:11px;font-family:var(--mono);color:var(--text3);margin-bottom:12px;">1-2 sets · Ma + Wo</div>
-          <div class="exercise-row" onclick="toggleEx(this)"><div class="exercise-icon">🍑</div><div class="exercise-info"><div class="exercise-name">Glute Bridge</div><div class="exercise-meta">2 × 10 reps · lichaamsgewicht</div></div></div>
-          <div class="exercise-detail">Licht en gecontroleerd. Doel is activatie, niet vermoeidheid.</div>
-          <div class="exercise-row" onclick="toggleEx(this)"><div class="exercise-icon">↔️</div><div class="exercise-info"><div class="exercise-name">Clamshell</div><div class="exercise-meta">2 × 10 per kant · licht elastiek</div></div></div>
-          <div class="exercise-detail">Activeert heupabductoren. Voorkomt knieën naar binnen bij vermoeidheid.</div>
-          <div class="exercise-row" onclick="toggleEx(this)"><div class="exercise-icon">🏋️</div><div class="exercise-info"><div class="exercise-name">Plank</div><div class="exercise-meta">2 × 20 sec · lichaamsgewicht</div></div></div>
-          <div class="exercise-detail">Kort en krachtig. Stop voor je moe wordt.</div>
+          <div class="ex-row" onclick="te(this)"><div class="ex-icon">🍑</div><div class="ex-info"><div class="ex-name">Glute Bridge</div><a class="vid-btn" href="https://www.youtube.com/watch?v=OUgsJ8-Vi0E" target="_blank">▶ Bekijk video</a><div class="ex-meta">2 × 10 · lichaamsgewicht</div></div></div>
+          <div class="ex-detail">Licht en gecontroleerd. Doel is activatie, niet vermoeidheid.</div>
+          <div class="ex-row" onclick="te(this)"><div class="ex-icon">↔️</div><div class="ex-info"><div class="ex-name">Clamshell</div><a class="vid-btn" href="https://www.youtube.com/watch?v=_a9BuUrMI9Y" target="_blank">▶ Bekijk video</a><div class="ex-meta">2 × 10 per kant · licht elastiek</div></div></div>
+          <div class="ex-detail">Activeert heupabductoren. Voorkomt knieën naar binnen bij vermoeidheid op km 40.</div>
+          <div class="ex-row" onclick="te(this)"><div class="ex-icon">🏋️</div><div class="ex-info"><div class="ex-name">Plank</div><a class="vid-btn" href="https://www.youtube.com/watch?v=B296mZDhrP4" target="_blank">▶ Bekijk video</a><div class="ex-meta">2 × 20 sec · lichaamsgewicht</div></div></div>
+          <div class="ex-detail">Kort en krachtig. Stop voor je moe wordt.</div>
         </div>
+      </div>
+    </div>
+
+    <!-- STRETCHES -->
+    <div id="s-stretch" class="section">
+      <div class="info-note">🧘 Stretching is essentieel voor herstel en blessurepreventie. Zeker bij 2 locaties (Rotterdam + heuvel).</div>
+
+      <div class="sec-label">Voor de run — 5 minuten</div>
+      <div class="stretch-card">
+        <div class="stretch-hdr"><div class="stretch-title">Dynamische warming up</div><div class="stretch-time">5 min</div></div>
+        <div class="stretch-row" onclick="tsd(this)"><div class="stretch-num">01</div><div class="stretch-info"><div class="stretch-name">Leg Swings</div><a class="vid-btn" href="https://www.youtube.com/watch?v=6YRjQkKiHiM" target="_blank">▶ Bekijk video</a><div class="stretch-dur">20× per been · voor-achter</div></div></div>
+        <div class="stretch-desc">Sta op één been, zwaai het andere been voor- en achterwaarts. Begin rustig, vergroot de beweging. Losmaken van heup en hamstring.</div>
+        <div class="stretch-row" onclick="tsd(this)"><div class="stretch-num">02</div><div class="stretch-info"><div class="stretch-name">Heup Rotaties</div><a class="vid-btn" href="https://www.youtube.com/watch?v=5sT7ykDVBxs" target="_blank">▶ Bekijk video</a><div class="stretch-dur">10× per been · cirkels</div></div></div>
+        <div class="stretch-desc">Sta op één been, trek het andere knie omhoog en maak een grote cirkel met je knie. Losmaken van heupgewricht.</div>
+        <div class="stretch-row" onclick="tsd(this)"><div class="stretch-num">03</div><div class="stretch-info"><div class="stretch-name">Lunge met Rotatie</div><a class="vid-btn" href="https://www.youtube.com/watch?v=gVDfaFABHXk" target="_blank">▶ Bekijk video</a><div class="stretch-dur">8× per kant</div></div></div>
+        <div class="stretch-desc">Stap in lunge, draai je bovenlichaam naar het voorste been. Opent heupen en activeert core. Perfect voor trail starts.</div>
+        <div class="stretch-row" onclick="tsd(this)"><div class="stretch-num">04</div><div class="stretch-info"><div class="stretch-name">Enkels Draaien</div><div class="stretch-dur">10× per enkel</div></div></div>
+        <div class="stretch-desc">Draai elk enkel in beide richtingen. Cruciaal voor stabiliteit op de heuvel en ongelijk terrein.</div>
+        <div class="stretch-row" onclick="tsd(this)"><div class="stretch-num">05</div><div class="stretch-info"><div class="stretch-name">High Knees</div><div class="stretch-dur">20 meter · langzaam</div></div></div>
+        <div class="stretch-desc">Loop langzaam met hoge knieën. Activeert heupheffers en kuit. Laatste stap voor de run.</div>
+      </div>
+
+      <div class="sec-label">Na de run — 10 minuten</div>
+      <div class="stretch-card">
+        <div class="stretch-hdr"><div class="stretch-title">Statische cooling down</div><div class="stretch-time">10 min</div></div>
+        <div class="stretch-row" onclick="tsd(this)"><div class="stretch-num">01</div><div class="stretch-info"><div class="stretch-name">Quadriceps Stretch</div><a class="vid-btn" href="https://www.youtube.com/watch?v=OAkCPAMkVek" target="_blank">▶ Bekijk video</a><div class="stretch-dur">45 sec per been</div></div></div>
+        <div class="stretch-desc">Sta op één been, trek je andere voet naar je bil. Houd je knie naar beneden gericht. Essentieel na heuvel afdalingen en trail runs met veel D+.</div>
+        <div class="stretch-row" onclick="tsd(this)"><div class="stretch-num">02</div><div class="stretch-info"><div class="stretch-name">Hamstring Stretch</div><a class="vid-btn" href="https://www.youtube.com/watch?v=fZt0GH7pxAA" target="_blank">▶ Bekijk video</a><div class="stretch-dur">45 sec per been</div></div></div>
+        <div class="stretch-desc">Zit op de grond, één been gestrekt. Buig langzaam voorover naar je voet. Voel de rek achterkant bovenbeen. Niet stuiteren.</div>
+        <div class="stretch-row" onclick="tsd(this)"><div class="stretch-num">03</div><div class="stretch-info"><div class="stretch-name">Kuit Stretch</div><a class="vid-btn" href="https://www.youtube.com/watch?v=pVJYGJRwkx8" target="_blank">▶ Bekijk video</a><div class="stretch-dur">45 sec per been</div></div></div>
+        <div class="stretch-desc">Sta tegen muur, één been achter je gestrekt. Hiel op de grond. Voel de rek in de kuit. Doe ook met licht gebogen knie voor de diepe kuit (soleus).</div>
+        <div class="stretch-row" onclick="tsd(this)"><div class="stretch-num">04</div><div class="stretch-info"><div class="stretch-name">Heupbuiger Stretch</div><a class="vid-btn" href="https://www.youtube.com/watch?v=YQmpO9VT2X4" target="_blank">▶ Bekijk video</a><div class="stretch-dur">45 sec per kant</div></div></div>
+        <div class="stretch-desc">Knieling lunge. Duw heupen licht naar voren terwijl je recht blijft. Cruciaal voor lopers die veel zitten bij ploegendienst.</div>
+        <div class="stretch-row" onclick="tsd(this)"><div class="stretch-num">05</div><div class="stretch-info"><div class="stretch-name">IT-Band Stretch</div><a class="vid-btn" href="https://www.youtube.com/watch?v=G0LGlkLEiic" target="_blank">▶ Bekijk video</a><div class="stretch-dur">45 sec per kant</div></div></div>
+        <div class="stretch-desc">Sta rechtop, kruis één been achter het andere. Buig zijwaarts naar het voorste been. Voorkomt kniepijn bij veel afdaling op de heuvel.</div>
+        <div class="stretch-row" onclick="tsd(this)"><div class="stretch-num">06</div><div class="stretch-info"><div class="stretch-name">Piriformis Stretch</div><a class="vid-btn" href="https://www.youtube.com/watch?v=s_BKI7OJ0cw" target="_blank">▶ Bekijk video</a><div class="stretch-dur">45 sec per kant</div></div></div>
+        <div class="stretch-desc">Lig op rug, kruis één enkel over de andere knie. Trek beide benen naar je borst. Diepe bil stretch. Helpt bij lage rugklachten na lange runs.</div>
+        <div class="stretch-row" onclick="tsd(this)"><div class="stretch-num">07</div><div class="stretch-info"><div class="stretch-name">Kind Pose</div><a class="vid-btn" href="https://www.youtube.com/watch?v=2MJGg-dUKh0" target="_blank">▶ Bekijk video</a><div class="stretch-dur">60 sec</div></div></div>
+        <div class="stretch-desc">Knieling, zit naar achteren op hielen, armen gestrekt voor je. Ontspant lage rug, heupen en schouders. Eindigt elke coolingdown.</div>
+      </div>
+
+      <div class="sec-label">Heuvel specifiek — voor en na</div>
+      <div class="stretch-card">
+        <div class="stretch-hdr"><div class="stretch-title">Hoge Bergse Bos routine</div><div class="stretch-time">8 min</div></div>
+        <div class="stretch-row" onclick="tsd(this)"><div class="stretch-num">01</div><div class="stretch-info"><div class="stretch-name">Calf Raises op helling</div><div class="stretch-dur">2 × 15 · voor de workout</div></div></div>
+        <div class="stretch-desc">Doe kuit raises op de helling zelf. Activeert kuit en enkel voor het ongelijke terrein van de heuvel.</div>
+        <div class="stretch-row" onclick="tsd(this)"><div class="stretch-num">02</div><div class="stretch-info"><div class="stretch-name">Quad Stretch na herhalingen</div><div class="stretch-dur">60 sec per been · na elke 5×</div></div></div>
+        <div class="stretch-desc">Na elke 5 herhalingen even je quads stretchen. Dit voorkomt spierstijfheid bij veel heuvelherhalingen.</div>
+        <div class="stretch-row" onclick="tsd(this)"><div class="stretch-num">03</div><div class="stretch-info"><div class="stretch-name">Downhill Lunge Stretch</div><div class="stretch-dur">30 sec per kant · na workout</div></div></div>
+        <div class="stretch-desc">Lunge op de helling naar beneden gericht. Strekt heupbuiger terwijl je knie de helling gewend is. Race specifieke stretch!</div>
+        <div class="stretch-row" onclick="tsd(this)"><div class="stretch-num">04</div><div class="stretch-info"><div class="stretch-name">Foam Roller Quads</div><div class="stretch-dur">2 min per been · thuis na</div></div></div>
+        <div class="stretch-desc">Rol langzaam over je quads. Bij een pijnlijk punt: blijf er 30 sec op staan. Cruciaal na heuvel herhalingen voor herstel.</div>
+      </div>
+
+      <div class="sec-label">Wekelijkse herstel stretching</div>
+      <div class="stretch-card">
+        <div class="stretch-hdr"><div class="stretch-title">Rustdag routine — 15 minuten</div><div class="stretch-time">15 min</div></div>
+        <div class="stretch-row" onclick="tsd(this)"><div class="stretch-num">01</div><div class="stretch-info"><div class="stretch-name">90/90 Hip Stretch</div><a class="vid-btn" href="https://www.youtube.com/watch?v=v_ZkxJBMj48" target="_blank">▶ Bekijk video</a><div class="stretch-dur">2 min per kant</div></div></div>
+        <div class="stretch-desc">Zit op de grond met beide benen in een 90° hoek aan voor- en achterkant. Wissel langzaam van kant. Diepe heupstretch voor lopers.</div>
+        <div class="stretch-row" onclick="tsd(this)"><div class="stretch-num">02</div><div class="stretch-info"><div class="stretch-name">Doorway Chest Stretch</div><div class="stretch-dur">60 sec</div></div></div>
+        <div class="stretch-desc">Armen in deuropening, leun licht naar voren. Opent borst en schouders die gespannen raken van poles gebruik.</div>
+        <div class="stretch-row" onclick="tsd(this)"><div class="stretch-num">03</div><div class="stretch-info"><div class="stretch-name">Supine Twist</div><a class="vid-btn" href="https://www.youtube.com/watch?v=LZKxcQjQIss" target="_blank">▶ Bekijk video</a><div class="stretch-dur">60 sec per kant</div></div></div>
+        <div class="stretch-desc">Lig op rug, één knie naar de andere kant draaien. Schouders op de grond. Ontspant lage rug na lange runs.</div>
+        <div class="stretch-row" onclick="tsd(this)"><div class="stretch-num">04</div><div class="stretch-info"><div class="stretch-name">Achilles Stretch</div><a class="vid-btn" href="https://www.youtube.com/watch?v=F_8rAFIBppc" target="_blank">▶ Bekijk video</a><div class="stretch-dur">45 sec per been</div></div></div>
+        <div class="stretch-desc">Knie licht gebogen, hiel op de grond. Leun langzaam naar voren. Voorkomt achillespeesblessures bij veel heuvel werk.</div>
       </div>
     </div>
 
     <!-- TIPS -->
     <div id="s-tips" class="section">
       <div class="tips-filter">
-        <button class="filter-btn active" onclick="filterTips('all',this)">Alles</button>
-        <button class="filter-btn" onclick="filterTips('voeding',this)">Voeding</button>
-        <button class="filter-btn" onclick="filterTips('poles',this)">Poles</button>
-        <button class="filter-btn" onclick="filterTips('herstel',this)">Herstel</button>
-        <button class="filter-btn" onclick="filterTips('race',this)">Race dag</button>
-        <button class="filter-btn" onclick="filterTips('raceweek',this)">Race week</button>
-        <button class="filter-btn" onclick="filterTips('training',this)">Training</button>
-        <button class="filter-btn" onclick="filterTips('mentaal',this)">Mentaal</button>
+        <button class="f-btn active" onclick="ft('all',this)">Alles</button>
+        <button class="f-btn" onclick="ft('voeding',this)">Voeding</button>
+        <button class="f-btn" onclick="ft('poles',this)">Poles</button>
+        <button class="f-btn" onclick="ft('herstel',this)">Herstel</button>
+        <button class="f-btn" onclick="ft('race',this)">Race dag</button>
+        <button class="f-btn" onclick="ft('raceweek',this)">Race week</button>
+        <button class="f-btn" onclick="ft('training',this)">Training</button>
+        <button class="f-btn" onclick="ft('mentaal',this)">Mentaal</button>
       </div>
-
-      <div class="tip-card show" data-cat="voeding"><div class="tip-card-top"><div class="tip-title">Eet elke 45 minuten</div><span class="tbadge tb-voeding">Voeding</span></div><div class="tip-text">Start al na 30-45 min, ook als je niet hongerig bent. Op km 35 is het te laat.</div><button class="tip-more" onclick="toggleTipDetail(this)">meer ▾</button><div class="tip-detail">60-90g koolhydraten per uur. Mix gels met dadels, banaan of rijstwafels. Train je maag ook tijdens trainingen.</div></div>
-      <div class="tip-card show" data-cat="voeding"><div class="tip-card-top"><div class="tip-title">Zout is cruciaal bij 6+ uur</div><span class="tbadge tb-voeding">Voeding</span></div><div class="tip-text">Neem elke uur een zoutcapsule. Kramp op km 40 is bijna altijd zouttekort.</div><button class="tip-more" onclick="toggleTipDetail(this)">meer ▾</button><div class="tip-detail">Je verliest 1-2g zout per uur. Jouw vochtverlies was 2.572ml in 2,5 uur — bij 6,5 uur is dat enorm. SaltStick capsules zijn ideaal.</div></div>
-      <div class="tip-card show" data-cat="voeding"><div class="tip-card-top"><div class="tip-title">Test race voeding nu al</div><span class="tbadge tb-voeding">Voeding</span></div><div class="tip-text">Gebruik tijdens lange trainingen exact dezelfde voeding als race dag.</div><button class="tip-more" onclick="toggleTipDetail(this)">meer ▾</button><div class="tip-detail">Maagproblemen zijn de nr. 1 DNF reden bij ultra's. Train je maag de komende weken systematisch.</div></div>
-      <div class="tip-card show" data-cat="raceweek"><div class="tip-card-top"><div class="tip-title">7 dagen voor: koolhydraten ophogen</div><span class="tbadge tb-raceweek">Race week</span></div><div class="tip-text">Pasta, rijst, aardappelen, brood. Vermijd vezels.</div><button class="tip-more" onclick="toggleTipDetail(this)">meer ▾</button><div class="tip-detail">Doel: glycogeenopslag maximaliseren. Eet 8-10g koolhydraten per kg lichaamsgewicht.</div></div>
-      <div class="tip-card show" data-cat="raceweek"><div class="tip-card-top"><div class="tip-title">3 dagen voor: rust en slaap</div><span class="tbadge tb-raceweek">Race week</span></div><div class="tip-text">Geen zware trainingen meer. Conditie bouw je niet meer op.</div><button class="tip-more" onclick="toggleTipDetail(this)">meer ▾</button><div class="tip-detail">Slaap 8-9 uur. Leg gear klaar. Vermijd alcohol en cafeïne.</div></div>
-      <div class="tip-card show" data-cat="raceweek"><div class="tip-card-top"><div class="tip-title">Avond voor: vroeg eten om 18:00</div><span class="tbadge tb-raceweek">Race week</span></div><div class="tip-text">Rijst of pasta met kip. Vroeg naar bed. Alles klaarleggen.</div><button class="tip-more" onclick="toggleTipDetail(this)">meer ▾</button><div class="tip-detail">Vermijd vet en vezels. Stel meerdere alarmen. Kleding, schoenen, poles en rugzak naast de deur.</div></div>
-      <div class="tip-card show" data-cat="raceweek"><div class="tip-card-top"><div class="tip-title">Race ochtend: eet 3 uur voor start</div><span class="tbadge tb-raceweek">Race week</span></div><div class="tip-text">Havermout, banaan, toast met honing. Drink 500ml water op.</div><button class="tip-more" onclick="toggleTipDetail(this)">meer ▾</button><div class="tip-detail">Geen experimenten. Neem 30 min voor start een gel. Laatste gear check.</div></div>
-      <div class="tip-card show" data-cat="poles"><div class="tip-card-top"><div class="tip-title">Jouw pole lengte: 125cm vlak</div><span class="tbadge tb-poles">Poles</span></div><div class="tip-text">Op basis van 183,5cm. Klimmen: 120cm, vlak: 125cm, afdalen: 130cm.</div><button class="tip-more" onclick="toggleTipDetail(this)">meer ▾</button><div class="tip-detail">Leki Ultratrail FX.One is verstelbaar met Speedlock. Oefen snel wisselen van lengte.</div></div>
-      <div class="tip-card show" data-cat="poles"><div class="tip-card-top"><div class="tip-title">Druk door handgreep, niet de lus</div><span class="tbadge tb-poles">Poles</span></div><div class="tip-text">Ontspan greep na elke plant. Spaart 30% energie in je armen.</div><button class="tip-more" onclick="toggleTipDetail(this)">meer ▾</button><div class="tip-detail">Klemmen geeft blaren na km 30. Oefen bewust het loslaten na elke plant.</div></div>
-      <div class="tip-card show" data-cat="poles"><div class="tip-card-top"><div class="tip-title">Klap poles in op vlak terrein</div><span class="tbadge tb-poles">Poles</span></div><div class="tip-text">FX.One klap je in 2 seconden in. Op vlak terrein weinig voordeel.</div><button class="tip-more" onclick="toggleTipDetail(this)">meer ▾</button><div class="tip-detail">Oefen in- en uitklappen tijdens trainingen. Bevestig ingeklapte poles aan je rugzak.</div></div>
-      <div class="tip-card show" data-cat="herstel"><div class="tip-card-top"><div class="tip-title">Eet binnen 30 min na training</div><span class="tbadge tb-herstel">Herstel</span></div><div class="tip-text">Herstelvenster is 30 min. Koolhydraten + eiwitten in 3:1 verhouding.</div><button class="tip-more" onclick="toggleTipDetail(this)">meer ▾</button><div class="tip-detail">Na lange run: chocolademelk, kwark met banaan. Je verbrandde 1.890 kcal in 2,5 uur!</div></div>
-      <div class="tip-card show" data-cat="herstel"><div class="tip-card-top"><div class="tip-title">Slaap is je beste training</div><span class="tbadge tb-herstel">Herstel</span></div><div class="tip-text">Met nachtdiensten: plan slaap als een training. Minimaal 8 uur.</div><button class="tip-more" onclick="toggleTipDetail(this)">meer ▾</button><div class="tip-detail">Na nachtdienst: train pas de volgende dag. Body Battery -35 vraagt 1-2 dagen herstel.</div></div>
-      <div class="tip-card show" data-cat="herstel"><div class="tip-card-top"><div class="tip-title">Koud water na lange runs</div><span class="tbadge tb-herstel">Herstel</span></div><div class="tip-text">10-15 min koud water op benen na runs langer dan 20km.</div><button class="tip-more" onclick="toggleTipDetail(this)">meer ▾</button><div class="tip-detail">Koude douche is voldoende. Combineer met compressiekousen de avond na een lange run.</div></div>
-      <div class="tip-card show" data-cat="race"><div class="tip-card-top"><div class="tip-title">Start 30 sec/km langzamer</div><span class="tbadge tb-race">Race dag</span></div><div class="tip-text">Adrenaline zorgt dat je te snel start. Eerste 10km voelen als een wandeling.</div><button class="tip-more" onclick="toggleTipDetail(this)">meer ▾</button><div class="tip-detail">Doel 8:20/km gemiddeld. Start op 8:50-9:00/km eerste 15km.</div></div>
-      <div class="tip-card show" data-cat="race"><div class="tip-card-top"><div class="tip-title">Wandel alle steile klimmen</div><span class="tbadge tb-race">Race dag</span></div><div class="tip-text">Boven 8% stijging is wandelen even snel maar 40% goedkoper.</div><button class="tip-more" onclick="toggleTipDetail(this)">meer ▾</button><div class="tip-detail">Dit is geen zwakte, dit is strategie. Alle elite ultra runners wandelen steile klimmen.</div></div>
-      <div class="tip-card show" data-cat="race"><div class="tip-card-top"><div class="tip-title">Gear checklist race dag</div><span class="tbadge tb-race">Race dag</span></div><div class="tip-text">Schoenen, sokken, poles, voeding, hydratievest, nooduitrusting, Garmin opgeladen.</div><button class="tip-more" onclick="toggleTipDetail(this)">meer ▾</button><div class="tip-detail">Verplichte uitrusting: EHBO kit, nooddeken, fluitje, waterreserve, regenjas.</div></div>
-      <div class="tip-card show" data-cat="training"><div class="tip-card-top"><div class="tip-title">80% trainingen onder 145 bpm</div><span class="tbadge tb-training">Training</span></div><div class="tip-text">Makkelijke trainingen moeten écht makkelijk zijn. Stel alarm in op Garmin.</div><button class="tip-more" onclick="toggleTipDetail(this)">meer ▾</button><div class="tip-detail">80/20 regel. Jouw heuvelrun zat op 161 bpm — te hoog voor een duurrun.</div></div>
-      <div class="tip-card show" data-cat="training"><div class="tip-card-top"><div class="tip-title">Verhoog cadans naar 170-180 spm</div><span class="tbadge tb-training">Training</span></div><div class="tip-text">Jouw cadans was 130 spm. Hogere cadans = minder impact per stap.</div><button class="tip-more" onclick="toggleTipDetail(this)">meer ▾</button><div class="tip-detail">Stel cadans alert in op Garmin op 170 spm. Begin met 5 min per training.</div></div>
-      <div class="tip-card show" data-cat="training"><div class="tip-card-top"><div class="tip-title">Time on feet boven tempo</div><span class="tbadge tb-training">Training</span></div><div class="tip-text">Bij lange runs is tijd op de been belangrijker dan snelheid.</div><button class="tip-more" onclick="toggleTipDetail(this)">meer ▾</button><div class="tip-detail">Je langste run is 30km. Voor 50km ultra wil je minimaal één keer 35-38km. Time on feet is key!</div></div>
-      <div class="tip-card show" data-cat="mentaal"><div class="tip-card-top"><div class="tip-title">Splits de race in 5 × 10km</div><span class="tbadge" style="background:rgba(150,100,220,0.15);color:#B47EE5;">Mentaal</span></div><div class="tip-text">Denk niet aan 50km. Denk aan 5 stukken van 10km.</div><button class="tip-more" onclick="toggleTipDetail(this)">meer ▾</button><div class="tip-detail">Km 0-10 opwarmen, km 10-20 ritme, km 20-30 flow, km 30-40 doorbijten, km 40-50 alles geven.</div></div>
-      <div class="tip-card show" data-cat="mentaal"><div class="tip-card-top"><div class="tip-title">Het wordt zwaar bij km 35-40</div><span class="tbadge" style="background:rgba(150,100,220,0.15);color:#B47EE5;">Mentaal</span></div><div class="tip-text">Normaal en verwacht. Vertraag, eet, drink en blijf bewegen.</div><button class="tip-more" onclick="toggleTipDetail(this)">meer ▾</button><div class="tip-detail">Bijna elke ultra runner heeft een "dark moment". Bedenk nu al een mantra.</div></div>
-      <div class="tip-card show" data-cat="mentaal"><div class="tip-card-top"><div class="tip-title">Visualiseer de finish elke avond</div><span class="tbadge" style="background:rgba(150,100,220,0.15);color:#B47EE5;">Mentaal</span></div><div class="tip-text">Stel je voor hoe je de finishlijn oversteekt. Mentale training werkt echt.</div><button class="tip-more" onclick="toggleTipDetail(this)">meer ▾</button><div class="tip-detail">Gebruik de laatste 2 weken voor mentale visualisatie. Stel je voor hoe je start, klimt en de laatste km aanvalt.</div></div>
+      <div class="tip-card show" data-cat="training"><div class="tip-top"><div class="tip-title">Heuvel = jouw geheime wapen</div><span class="tbadge tb-tr">Training</span></div><div class="tip-text">15-25 heuvelherhalingen op de heuvel Hoge Bergse Bos = 400-700m D+. Dat is je meest specifieke voorbereiding voor de race.</div><button class="tip-more" onclick="ttd(this)">meer ▾</button><div class="tip-detail">Doe de herhalingen langzamer dan je denkt. Wandel terug naar beneden als herstel. Gebruik je Leki poles om de techniek te oefenen. Na 20 herhalingen heb je al 540m hoogte — vergelijkbaar met een kwart van de race.</div></div>
+      <div class="tip-card show" data-cat="training"><div class="tip-top"><div class="tip-title">Z2 is je fundament</div><span class="tbadge tb-tr">Training</span></div><div class="tip-text">Je Z2 runs (5:35-5:57/km op 144-148bpm) zijn perfect. Dit is waar je uithoudingsvermogen wordt gebouwd.</div><button class="tip-more" onclick="ttd(this)">meer ▾</button><div class="tip-detail">80% van je training moet op dit niveau. Je Sweetspot runs (5:26-5:32/km op 152-154bpm) zijn max 1-2x per week. De rest: pure Z2.</div></div>
+      <div class="tip-card show" data-cat="training"><div class="tip-top"><div class="tip-title">Cadans verhogen naar 170-180 spm</div><span class="tbadge tb-tr">Training</span></div><div class="tip-text">Jouw cadans was 130 spm. Hogere cadans = minder impact per stap = minder blessures bij km 40.</div><button class="tip-more" onclick="ttd(this)">meer ▾</button><div class="tip-detail">Stel cadans alert in op je Garmin op 170 spm. Begin met 5 minuten per training op hogere cadans. Metronoom app helpt het ritme te voelen.</div></div>
+      <div class="tip-card show" data-cat="training"><div class="tip-top"><div class="tip-title">Lansingerland rustiger aanpakken</div><span class="tbadge tb-tr">Training</span></div><div class="tip-text">Je trail runs bij Lansingerland gaan op 161-167bpm. Dat is te hoog voor duurtraining. Richt op 150-155bpm.</div><button class="tip-more" onclick="ttd(this)">meer ▾</button><div class="tip-detail">Wandel de steile stukken vaker, ook in training. Dit simuleert je race strategie en houdt de hartslag laag. Gebruik je poles bij elke klimming.</div></div>
+      <div class="tip-card show" data-cat="voeding"><div class="tip-top"><div class="tip-title">Eet elke 45 minuten</div><span class="tbadge tb-v">Voeding</span></div><div class="tip-text">Start al na 30-45 min, ook als je niet hongerig bent. Op km 35 is het te laat.</div><button class="tip-more" onclick="ttd(this)">meer ▾</button><div class="tip-detail">60-90g koolhydraten per uur. Mix gels met dadels, banaan of rijstwafels. Train je maag ook tijdens de lange runs bij Lansingerland.</div></div>
+      <div class="tip-card show" data-cat="voeding"><div class="tip-top"><div class="tip-title">Zout bij 6+ uur</div><span class="tbadge tb-v">Voeding</span></div><div class="tip-text">Neem elke uur een zoutcapsule. Kramp op km 40 is bijna altijd zouttekort.</div><button class="tip-more" onclick="ttd(this)">meer ▾</button><div class="tip-detail">Jouw vochtverlies was 2.572ml in 2,5 uur bij Lansingerland. Bij 6,5 uur race is dat enorm. SaltStick capsules zijn ideaal.</div></div>
+      <div class="tip-card show" data-cat="voeding"><div class="tip-top"><div class="tip-title">Test race voeding nu al</div><span class="tbadge tb-v">Voeding</span></div><div class="tip-text">Gebruik tijdens lange Lansingerland runs exact dezelfde voeding als race dag.</div><button class="tip-more" onclick="ttd(this)">meer ▾</button><div class="tip-detail">Maagproblemen zijn de nr. 1 DNF reden bij ultra's. Train je maag de komende weken systematisch.</div></div>
+      <div class="tip-card show" data-cat="poles"><div class="tip-top"><div class="tip-title">Pole lengte: 125cm vlak</div><span class="tbadge tb-p">Poles</span></div><div class="tip-text">Op basis van 183,5cm. Klimmen: 120cm, vlak: 125cm, afdalen: 130cm.</div><button class="tip-more" onclick="ttd(this)">meer ▾</button><div class="tip-detail">Leki Ultratrail FX.One is verstelbaar. Oefen het snel wisselen op de heuvel zodat het automatisch gaat op race dag.</div></div>
+      <div class="tip-card show" data-cat="poles"><div class="tip-top"><div class="tip-title">Druk door handgreep, niet lus</div><span class="tbadge tb-p">Poles</span></div><div class="tip-text">Ontspan greep na elke plant. Spaart 30% energie in armen bij 6+ uur.</div><button class="tip-more" onclick="ttd(this)">meer ▾</button><div class="tip-detail">Oefen dit bewust op de heuvel. Klemmen geeft blaren na km 30 van de race.</div></div>
+      <div class="tip-card show" data-cat="herstel"><div class="tip-top"><div class="tip-title">Eet binnen 30 min na training</div><span class="tbadge tb-h">Herstel</span></div><div class="tip-text">Herstelvenster is 30 min. Koolhydraten + eiwitten in 3:1 verhouding.</div><button class="tip-more" onclick="ttd(this)">meer ▾</button><div class="tip-detail">Na heuvel workout of Lansingerland run: chocolademelk, kwark met banaan. Je verbrandde ~1900 kcal in 2,5 uur!</div></div>
+      <div class="tip-card show" data-cat="herstel"><div class="tip-top"><div class="tip-title">Slaap is je beste training</div><span class="tbadge tb-h">Herstel</span></div><div class="tip-text">Met ploegendiensten: plan slaap als een training. Minimaal 8 uur voor lange run dagen.</div><button class="tip-more" onclick="ttd(this)">meer ▾</button><div class="tip-detail">Na nachtdienst: train pas de volgende dag. Body Battery -35 na Lansingerland vraagt 1-2 dagen herstel.</div></div>
+      <div class="tip-card show" data-cat="raceweek"><div class="tip-top"><div class="tip-title">7 dagen voor: koolhydraten ophogen</div><span class="tbadge tb-rw">Race week</span></div><div class="tip-text">Pasta, rijst, aardappelen, brood. Vermijd vezels.</div><button class="tip-more" onclick="ttd(this)">meer ▾</button><div class="tip-detail">8-10g koolhydraten per kg lichaamsgewicht. Vermijd nieuwe voedingsmiddelen.</div></div>
+      <div class="tip-card show" data-cat="raceweek"><div class="tip-top"><div class="tip-title">3 dagen voor: rust en slaap</div><span class="tbadge tb-rw">Race week</span></div><div class="tip-text">Geen zware trainingen. Conditie bouw je niet meer op.</div><button class="tip-more" onclick="ttd(this)">meer ▾</button><div class="tip-detail">Slaap 8-9 uur. Leg gear klaar. Vermijd alcohol en cafeïne.</div></div>
+      <div class="tip-card show" data-cat="raceweek"><div class="tip-top"><div class="tip-title">Race ochtend: eet 3 uur voor start</div><span class="tbadge tb-rw">Race week</span></div><div class="tip-text">Havermout, banaan, toast met honing. Drink 500ml water langzaam op.</div><button class="tip-more" onclick="ttd(this)">meer ▾</button><div class="tip-detail">Geen experimenten. Neem 30 min voor start een gel voor extra energie.</div></div>
+      <div class="tip-card show" data-cat="race"><div class="tip-top"><div class="tip-title">Start 30 sec/km langzamer</div><span class="tbadge tb-r">Race dag</span></div><div class="tip-text">Adrenaline zorgt dat je te snel start. Eerste 10km voelen als een wandeling.</div><button class="tip-more" onclick="ttd(this)">meer ▾</button><div class="tip-detail">Doel 8:20/km gemiddeld. Start op 8:50-9:00/km eerste 15km. Ultra's worden gewonnen of verloren in de eerste 20km.</div></div>
+      <div class="tip-card show" data-cat="race"><div class="tip-top"><div class="tip-title">Wandel alle steile klimmen</div><span class="tbadge tb-r">Race dag</span></div><div class="tip-text">Boven 8% stijging is wandelen even snel maar 40% goedkoper qua energie.</div><button class="tip-more" onclick="ttd(this)">meer ▾</button><div class="tip-detail">Dit is geen zwakte, dit is strategie. Oefen dit bewust op de heuvel. Poles maximaal gebruiken bij klimmen.</div></div>
+      <div class="tip-card show" data-cat="mentaal"><div class="tip-top"><div class="tip-title">Splits race in 5 × 10km</div><span class="tbadge tb-m">Mentaal</span></div><div class="tip-text">Denk niet aan 50km. Denk aan 5 stukken van 10km.</div><button class="tip-more" onclick="ttd(this)">meer ▾</button><div class="tip-detail">Km 0-10 opwarmen, 10-20 ritme, 20-30 flow, 30-40 doorbijten, 40-50 alles geven.</div></div>
+      <div class="tip-card show" data-cat="mentaal"><div class="tip-top"><div class="tip-title">Het wordt zwaar bij km 35-40</div><span class="tbadge tb-m">Mentaal</span></div><div class="tip-text">Normaal en verwacht. Vertraag, eet, drink en blijf bewegen.</div><button class="tip-more" onclick="ttd(this)">meer ▾</button><div class="tip-detail">Bijna elke ultra runner heeft een "dark moment". Bedenk nu al een mantra. Het gevoel gaat altijd over.</div></div>
     </div>
 
     <!-- COACH -->
     <div id="s-coach" class="section">
       <div class="chat-wrap">
-        <div class="quick-chips">
-          <div class="chip" onclick="quickAsk('Analyseer mijn conditie voor de 50km race op basis van mijn trainingsdata.')">Conditie analyse</div>
+        <div class="chips">
+          <div class="chip" onclick="quickAsk('Analyseer mijn trainingspatroon van de afgelopen 4 weken op basis van mijn Garmin data.')">Analyseer mijn runs</div>
+          <div class="chip" onclick="quickAsk('Hoeveel heuvel herhalingen moet ik doen per week voor optimale race voorbereiding?')">Heuvel tips</div>
           <div class="chip" onclick="quickAsk('Maak een voedings- en hydratieplan voor mijn 50km trail race van 6-7 uur.')">Voedingsplan</div>
-          <div class="chip" onclick="quickAsk('Hoe combineer ik mijn ploegendiensten bij innocent drinks met mijn trainingsplan?')">Ploegendienst</div>
-          <div class="chip" onclick="quickAsk('Geef me pole techniek tips voor klimmen met 2000m hoogteverschil. Ik gebruik Leki FX.One.')">Pole tips</div>
+          <div class="chip" onclick="quickAsk('Hoe combineer ik mijn ploegendiensten bij innocent drinks met mijn trainingsplan komende week?')">Ploegendienst</div>
+          <div class="chip" onclick="quickAsk('Geef me pole techniek tips voor klimmen met 2000m hoogteverschil. Leki FX.One, 183,5cm.')">Pole techniek</div>
           <div class="chip" onclick="quickAsk('Geef me een complete gear checklist voor mijn 50km trail race.')">Gear checklist</div>
-          <div class="chip" onclick="quickAsk('Wat zijn de beste herstelstrategieën na een lange trail run?')">Hersteladvies</div>
         </div>
-        <div class="chat-messages" id="chat-messages">
-          <div class="chat-msg assistant">Hoi Lorenzo! 👋 Ik ben je persoonlijke trail coach. Ik ken al je data en help je graag met vragen over je 50km race op 21 juni. Wat wil je weten?</div>
+        <div class="chat-msgs" id="chat-msgs">
+          <div class="chat-msg msg-ai">Hoi Lorenzo! 👋 Ik ken je trainingsdata van de afgelopen weken — je doet het echt goed met je Z2 runs in Rotterdam en de trail sessions bij Lansingerland. Wat wil je weten?</div>
         </div>
-        <div class="chat-error" id="chat-error">⚠️ Geen verbinding met Claude. Controleer je API key in Instellingen.</div>
-        <div class="chat-input-area">
+        <div class="chat-err" id="chat-err">⚠️ Geen verbinding met Claude. Sla je API key op in de Race tab.</div>
+        <div class="chat-bottom">
           <div class="chat-row">
-            <input type="text" class="chat-input" id="chat-input" placeholder="Vraag je coach iets..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat()}">
-            <button class="chat-send" id="send-btn" onclick="sendChat()">↑</button>
+            <input type="text" class="chat-in" id="chat-in" placeholder="Vraag je coach iets..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sc()}">
+            <button class="chat-send" id="send-btn" onclick="sc()">↑</button>
           </div>
         </div>
       </div>
@@ -445,95 +489,76 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
 
     <!-- RACE PLANNER -->
     <div id="s-race" class="section">
-      <div class="info-note">🎯 Vul je volgende race in. Claude genereert automatisch een persoonlijk trainingsplan op basis van jouw profiel.</div>
+      <div class="info-note">🎯 Vul je volgende race in. Claude genereert een persoonlijk plan op basis van jouw profiel en trainingsdata.</div>
 
       <div id="race-form">
         <div class="card">
-          <div class="form-group">
-            <label class="form-label">Race naam</label>
-            <input type="text" class="form-input" id="r-name" placeholder="bijv. Sallandse Heuvelrug Trail">
+          <div class="form-group"><label class="form-label">Race naam</label><input type="text" class="form-input" id="r-name" placeholder="bijv. Sallandse Heuvelrug Trail"></div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Race datum</label><input type="date" class="form-input" id="r-date"></div>
+            <div class="form-group"><label class="form-label">Afstand (km)</label><input type="number" class="form-input" id="r-dist" placeholder="50"></div>
           </div>
           <div class="form-row">
-            <div class="form-group">
-              <label class="form-label">Race datum</label>
-              <input type="date" class="form-input" id="r-date">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Afstand (km)</label>
-              <input type="number" class="form-input" id="r-dist" placeholder="50">
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label">Hoogtemeters D+</label>
-              <input type="number" class="form-input" id="r-elev" placeholder="2000">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Doeltijd (uren)</label>
-              <input type="number" class="form-input" id="r-time" placeholder="7" step="0.5">
-            </div>
+            <div class="form-group"><label class="form-label">Hoogtemeters D+</label><input type="number" class="form-input" id="r-elev" placeholder="2000"></div>
+            <div class="form-group"><label class="form-label">Doeltijd (uren)</label><input type="number" class="form-input" id="r-time" placeholder="7" step="0.5"></div>
           </div>
           <div class="form-group">
             <label class="form-label">Huidige conditie</label>
             <select class="form-input" id="r-cond">
-              <option value="goed hersteld, klaar voor nieuwe opbouw">Goed hersteld na vorige race</option>
+              <option value="goed hersteld na vorige race">Goed hersteld na vorige race</option>
               <option value="moe, nog in herstel">Moe, nog in herstel</option>
               <option value="fit en goed getraind">Fit en goed getraind</option>
               <option value="lange onderbreking gehad">Lange onderbreking gehad</option>
             </select>
           </div>
-          <div class="form-group">
-            <label class="form-label">Extra informatie</label>
-            <input type="text" class="form-input" id="r-extra" placeholder="bijv. nachtdiensten in week 2">
-          </div>
-          <button class="btn-generate" onclick="generatePlan()">Genereer trainingsplan</button>
+          <div class="form-group"><label class="form-label">Extra info</label><input type="text" class="form-input" id="r-extra" placeholder="bijv. nachtdiensten in week 2"></div>
+          <button class="btn-gen" onclick="gp()">Genereer trainingsplan</button>
         </div>
       </div>
 
-      <div id="race-loading" style="display:none;" class="loading-state">
+      <div id="race-loading" style="display:none;" class="spin-wrap">
         <div class="spinner"></div>
-        <div class="loading-label">Claude maakt jouw plan...</div>
+        <div class="spin-label">Claude maakt jouw plan...</div>
       </div>
-
-      <div id="race-error" style="display:none;" class="info-note" style="color:var(--accent)"></div>
-
-      <div id="race-output" style="display:none;">
-        <div class="success-note">✓ Trainingsplan gegenereerd</div>
-        <div class="plan-result" id="plan-text"></div>
-        <button class="btn-generate" onclick="applyPlan()">Sla op als actief plan</button>
-        <button class="btn-outline" onclick="resetForm()">Nieuwe race plannen</button>
+      <div id="race-err" style="display:none;" class="info-note"></div>
+      <div id="race-out" style="display:none;">
+        <div class="ok-note">✓ Trainingsplan gegenereerd</div>
+        <div class="plan-result" id="plan-txt"></div>
+        <button class="btn-gen" onclick="ap()">Sla op als actief plan</button>
+        <button class="btn-out" onclick="rf()">Nieuwe race plannen</button>
       </div>
 
       <div class="card" style="margin-top:16px;">
-        <div style="font-size:12px;font-family:var(--mono);color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">API Key instellen</div>
+        <div style="font-size:11px;font-family:var(--mono);color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">API Key</div>
         <div style="font-size:12px;color:var(--text3);margin-bottom:10px;line-height:1.6;">Vul je Anthropic API key in om de AI coach en plan generator te activeren.</div>
-        <input type="password" class="form-input" id="api-key-input" placeholder="sk-ant-...">
-        <button class="btn-generate" style="margin-top:8px;" onclick="saveApiKey()">Opslaan</button>
-        <div id="api-status" style="font-size:11px;font-family:var(--mono);color:var(--text3);margin-top:8px;display:none;"></div>
+        <input type="password" class="form-input" id="api-in" placeholder="sk-ant-...">
+        <button class="btn-gen" style="margin-top:8px;" onclick="sak()">Opslaan</button>
+        <div id="api-st" style="font-size:11px;font-family:var(--mono);color:var(--text3);margin-top:8px;display:none;"></div>
+      </div>
+
+      <div class="card" style="margin-top:4px;">
+        <div style="font-size:11px;font-family:var(--mono);color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:12px;">Jouw profiel</div>
+        <div class="profile-row"><div class="profile-label">10km vlak</div><div class="profile-val">5:20/km · 144bpm</div></div>
+        <div class="profile-row"><div class="profile-label">25km vlak</div><div class="profile-val">5:40/km · 148bpm</div></div>
+        <div class="profile-row"><div class="profile-label">Trail 20km</div><div class="profile-val">7:45/km · 161bpm · 966m D+</div></div>
+        <div class="profile-row"><div class="profile-label">Trainingsheuvel</div><div class="profile-val">Heuvel Hoge Bergse Bos</div></div>
+        <div class="profile-row"><div class="profile-label">Wekelijks volume</div><div class="profile-val">~58km/week gem.</div></div>
+        <div class="profile-row"><div class="profile-label">Langste run</div><div class="profile-val">25km vlak / 30km trail</div></div>
+        <div class="profile-row"><div class="profile-label">Poles</div><div class="profile-val">Leki FX.One · 125cm vlak</div></div>
+        <div class="profile-row" style="border:none;"><div class="profile-label">Locatie</div><div class="profile-val">Rotterdam</div></div>
       </div>
     </div>
 
   </div>
 
   <div class="bottom-nav">
-    <button class="nav-btn active" onclick="showSection('home','Dashboard',this)">
-      <div class="nav-icon">⌂</div><div class="nav-label">Home</div><div class="nav-dot"></div>
-    </button>
-    <button class="nav-btn" onclick="showSection('plan','Trainingsplan',this)">
-      <div class="nav-icon">📅</div><div class="nav-label">Plan</div><div class="nav-dot"></div>
-    </button>
-    <button class="nav-btn" onclick="showSection('kracht','Krachtraining',this)">
-      <div class="nav-icon">💪</div><div class="nav-label">Kracht</div><div class="nav-dot"></div>
-    </button>
-    <button class="nav-btn" onclick="showSection('tips','Tips & Tricks',this)">
-      <div class="nav-icon">★</div><div class="nav-label">Tips</div><div class="nav-dot"></div>
-    </button>
-    <button class="nav-btn" onclick="showSection('coach','AI Coach',this)">
-      <div class="nav-icon">💬</div><div class="nav-label">Coach</div><div class="nav-dot"></div>
-    </button>
-    <button class="nav-btn" onclick="showSection('race','Race Planner',this)">
-      <div class="nav-icon">🎯</div><div class="nav-label">Race</div><div class="nav-dot"></div>
-    </button>
+    <button class="nav-btn active" onclick="ss('home','Dashboard',this)"><div class="nav-icon">⌂</div><div class="nav-label">Home</div><div class="nav-dot"></div></button>
+    <button class="nav-btn" onclick="ss('plan','Trainingsplan',this)"><div class="nav-icon">📅</div><div class="nav-label">Plan</div><div class="nav-dot"></div></button>
+    <button class="nav-btn" onclick="ss('kracht','Krachtraining',this)"><div class="nav-icon">💪</div><div class="nav-label">Kracht</div><div class="nav-dot"></div></button>
+    <button class="nav-btn" onclick="ss('stretch','Stretching',this)"><div class="nav-icon">🧘</div><div class="nav-label">Stretch</div><div class="nav-dot"></div></button>
+    <button class="nav-btn" onclick="ss('tips','Tips',this)"><div class="nav-icon">★</div><div class="nav-label">Tips</div><div class="nav-dot"></div></button>
+    <button class="nav-btn" onclick="ss('coach','AI Coach',this)"><div class="nav-icon">💬</div><div class="nav-label">Coach</div><div class="nav-dot"></div></button>
+    <button class="nav-btn" onclick="ss('race','Race Planner',this)"><div class="nav-icon">🎯</div><div class="nav-label">Race</div><div class="nav-dot"></div></button>
   </div>
 </div>
 
@@ -541,212 +566,180 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
 const PROFILE = `Je bent de persoonlijke AI trail running coach van Lorenzo.
 
 LORENZOS PROFIEL:
-- Lengte: 183,5cm, Leki Ultratrail FX.One poles (125cm vlak)
-- 10km vlak: 5:20/km op 144 bpm
-- 25km vlak: 5:40/km op 148 bpm  
-- 20km trail 966m D+: 7:45/km op 161 bpm
-- Langste run: 30km | Wekelijks: 50-70km
-- Cadans: 130 spm (doel: 170-180 spm)
-- Werkt in 5-ploegendiensten bij innocent drinks (vroeg/laat/nacht)
-- Krachtraining: 5kg kettlebell, elastieken, lichaamsgewicht
+- Lengte: 183,5cm | Woonplaats: Rotterdam
+- Trainingsheuvel: Heuvel Hoge Bergse Bos (Lansingerland) — 1-2x per week
+- Rotterdam vlak: 5-6 dagen per week Z2 en Sweetspot runs
+
+RECENTE GARMIN DATA (april-mei 2026):
+- 2 mei: 10km Rotterdam, 6:01/km, 143bpm (herstel)
+- 30 apr: 10km Z2, 5:57/km, 145bpm
+- 28 apr: 25km Z2 Endurance, 5:40/km, 148bpm
+- 26 apr: 11km Sweetspot, 5:26/km, 153bpm
+- 23 apr: 10km Z2, 5:20/km, 144bpm
+- 21 apr: 20km trail Lansingerland, 7:45/km, 161bpm, 966m D+
+- 20 apr: 10km Z2, 5:38/km, 145bpm
+- 18 apr: 8.9km trail Lansingerland, 7:49/km, 165bpm, 424m D+
+- 16 apr: 11km Sweetspot, 5:32/km, 154bpm
+- 14 apr: 10km herstel, 6:07/km, 130bpm
+- 13 apr: 25km Z2 Endurance, 5:43/km, 146bpm
+- 10 apr: 10.4km trail Lansingerland, 8:43/km, 166bpm, 688m D+
+- 8 apr: 15.8km Z2 Easy, 5:43/km, 145bpm
+- 7 apr: 10.9km Sweetspot, 5:31/km, 152bpm
+- 6 apr: 10.7km Z2, 5:35/km, 144bpm
+- 4 apr: 11.5km trail Lansingerland, 7:58/km, 167bpm, 591m D+
+
+STERKE PUNTEN: Uitstekende Z2 aerobe basis. Goede trail ervaring bij Lansingerland.
+VERBETERPUNTEN: Cadans verhogen van 130 naar 170spm. Trail runs rustiger (nu 161-167bpm, doel 150-155bpm).
+
+PROFIEL DETAILS:
+- Langste run: 25km vlak, 30km trail
+- Wekelijks volume: ~58km gemiddeld
+- Poles: Leki Ultratrail FX.One, 125cm vlak
+- Kracht: 5kg kettlebell, elastieken, lichaamsgewicht
+- Werk: 5-ploegendiensten innocent drinks (vroeg/laat/nacht)
 - Actieve race: 50km trail met 2000m D+ op 21 juni 2026, doel sub 7 uur (8:20/km)
 
-Spreek Lorenzo aan in het Nederlands. Wees concreet, persoonlijk en motiverend.`;
+Spreek Lorenzo aan in het Nederlands. Wees concreet, persoonlijk en gebruik zijn echte data.`;
 
-let chatHistory = [];
-let newRaceData = null;
+let chatHist = [];
+let newRace = null;
 
-function getApiKey() {
-  return localStorage.getItem('tc_api_key') || '';
+function getKey() { return localStorage.getItem('tc_k') || ''; }
+function sak() {
+  const k = document.getElementById('api-in').value.trim();
+  if (!k) return;
+  localStorage.setItem('tc_k', k);
+  const st = document.getElementById('api-st');
+  st.style.display = 'block'; st.textContent = '✓ API key opgeslagen'; st.style.color = 'var(--green)';
 }
 
-function saveApiKey() {
-  const key = document.getElementById('api-key-input').value.trim();
-  if (!key) return;
-  localStorage.setItem('tc_api_key', key);
-  const status = document.getElementById('api-status');
-  status.style.display = 'block';
-  status.textContent = '✓ API key opgeslagen';
-  status.style.color = 'var(--green)';
-}
-
-async function callClaude(messages, maxTokens = 1000) {
-  const key = getApiKey();
-  if (!key) throw new Error('Geen API key ingesteld');
-  const resp = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-calls': 'true' },
-    body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: maxTokens, system: PROFILE, messages })
+async function callClaude(msgs, max=1000) {
+  const k = getKey();
+  if (!k) throw new Error('no key');
+  const r = await fetch('https://api.anthropic.com/v1/messages', {
+    method:'POST',
+    headers:{'Content-Type':'application/json','x-api-key':k,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-calls':'true'},
+    body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:max,system:PROFILE,messages:msgs})
   });
-  if (!resp.ok) throw new Error('API fout ' + resp.status);
-  const data = await resp.json();
-  return data.content.map(b => b.text || '').join('');
+  if (!r.ok) throw new Error('api error');
+  const d = await r.json();
+  return d.content.map(b=>b.text||'').join('');
 }
 
-function showSection(id, title, btn) {
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('s-' + id).classList.add('active');
+function ss(id, title, btn) {
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('s-'+id).classList.add('active');
   document.getElementById('page-title').textContent = title;
-  if (btn) btn.classList.add('active');
+  if(btn) btn.classList.add('active');
   document.getElementById('main-content').scrollTop = 0;
 }
-
-function toggleWeek(id) {
-  document.getElementById(id).classList.toggle('open');
+function tw(id) { document.getElementById(id).classList.toggle('open'); }
+function sk(id,btn) {
+  document.querySelectorAll('.ks').forEach(s=>s.classList.remove('show'));
+  document.querySelectorAll('.k-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('show'); btn.classList.add('active');
 }
-
-function showKracht(id, btn) {
-  document.querySelectorAll('.kracht-section').forEach(s => s.classList.remove('show'));
-  document.querySelectorAll('.kracht-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById(id).classList.add('show');
-  btn.classList.add('active');
+function ft(cat,btn) {
+  document.querySelectorAll('.f-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active');
+  document.querySelectorAll('.tip-card').forEach(c=>c.classList.toggle('show',cat==='all'||c.dataset.cat===cat));
 }
+function ttd(btn) { const d=btn.nextElementSibling; d.classList.toggle('open'); btn.textContent=d.classList.contains('open')?'minder ▴':'meer ▾'; }
+function te(row) { const d=row.nextElementSibling; if(d&&d.classList.contains('ex-detail')) d.classList.toggle('open'); }
+function tsd(row) { const d=row.nextElementSibling; if(d&&d.classList.contains('stretch-desc')) d.classList.toggle('open'); }
 
-function filterTips(cat, btn) {
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.tip-card').forEach(c => {
-    c.classList.toggle('show', cat === 'all' || c.dataset.cat === cat);
-  });
-}
-
-function toggleTipDetail(btn) {
-  const d = btn.nextElementSibling;
-  d.classList.toggle('open');
-  btn.textContent = d.classList.contains('open') ? 'minder ▴' : 'meer ▾';
-}
-
-function toggleEx(row) {
-  const d = row.nextElementSibling;
-  if (d && d.classList.contains('exercise-detail')) d.classList.toggle('open');
-}
-
-async function sendChat() {
-  const input = document.getElementById('chat-input');
-  const msg = input.value.trim();
-  if (!msg) return;
-  input.value = '';
-  document.getElementById('send-btn').disabled = true;
-  document.getElementById('chat-error').style.display = 'none';
-  addMsg(msg, 'user');
-  chatHistory.push({ role: 'user', content: msg });
-  const thinking = addMsg('...', 'assistant thinking');
+async function sc() {
+  const inp=document.getElementById('chat-in');
+  const msg=inp.value.trim(); if(!msg) return;
+  inp.value=''; document.getElementById('send-btn').disabled=true;
+  document.getElementById('chat-err').style.display='none';
+  am(msg,'user'); chatHist.push({role:'user',content:msg});
+  const t=am('...','ai thinking');
   try {
-    const reply = await callClaude(chatHistory);
-    thinking.className = 'chat-msg assistant';
-    thinking.textContent = reply;
-    chatHistory.push({ role: 'assistant', content: reply });
-  } catch(e) {
-    thinking.remove();
-    chatHistory.pop();
-    document.getElementById('chat-error').style.display = 'block';
-  }
-  document.getElementById('send-btn').disabled = false;
-  const msgs = document.getElementById('chat-messages');
-  msgs.scrollTop = msgs.scrollHeight;
+    const r=await callClaude(chatHist);
+    t.className='chat-msg msg-ai'; t.textContent=r;
+    chatHist.push({role:'assistant',content:r});
+  } catch(e) { t.remove(); chatHist.pop(); document.getElementById('chat-err').style.display='block'; }
+  document.getElementById('send-btn').disabled=false;
+  const m=document.getElementById('chat-msgs'); m.scrollTop=m.scrollHeight;
 }
 
 function quickAsk(msg) {
-  showSection('coach', 'AI Coach', document.querySelectorAll('.nav-btn')[4]);
-  document.getElementById('chat-input').value = msg;
-  sendChat();
+  ss('coach','AI Coach',document.querySelectorAll('.nav-btn')[5]);
+  document.getElementById('chat-in').value=msg; sc();
 }
 
-function addMsg(text, cls) {
-  const div = document.createElement('div');
-  div.className = 'chat-msg ' + cls;
-  div.textContent = text;
-  document.getElementById('chat-messages').appendChild(div);
-  document.getElementById('chat-messages').scrollTop = 999999;
-  return div;
+function am(txt,cls) {
+  const d=document.createElement('div');
+  d.className='chat-msg msg-'+cls; d.textContent=txt;
+  document.getElementById('chat-msgs').appendChild(d);
+  document.getElementById('chat-msgs').scrollTop=999999;
+  return d;
 }
 
-async function generatePlan() {
-  const name = document.getElementById('r-name').value.trim();
-  const date = document.getElementById('r-date').value;
-  const dist = document.getElementById('r-dist').value;
-  const elev = document.getElementById('r-elev').value;
-  const time = document.getElementById('r-time').value;
-  const cond = document.getElementById('r-cond').value;
-  const extra = document.getElementById('r-extra').value.trim();
-  if (!name || !date || !dist || !elev || !time) {
-    const err = document.getElementById('race-error');
-    err.style.display = 'block';
-    err.textContent = '⚠️ Vul alle verplichte velden in.';
-    return;
+async function gp() {
+  const name=document.getElementById('r-name').value.trim();
+  const date=document.getElementById('r-date').value;
+  const dist=document.getElementById('r-dist').value;
+  const elev=document.getElementById('r-elev').value;
+  const time=document.getElementById('r-time').value;
+  const cond=document.getElementById('r-cond').value;
+  const extra=document.getElementById('r-extra').value.trim();
+  if(!name||!date||!dist||!elev||!time){
+    const e=document.getElementById('race-err'); e.style.display='block'; e.textContent='⚠️ Vul alle verplichte velden in.'; return;
   }
-  document.getElementById('race-error').style.display = 'none';
-  document.getElementById('race-form').style.display = 'none';
-  document.getElementById('race-loading').style.display = 'block';
-  document.getElementById('race-output').style.display = 'none';
-  const rDate = new Date(date);
-  const weeks = Math.max(1, Math.ceil((rDate - new Date()) / (1000*60*60*24*7)));
-  const prompt = `Maak een persoonlijk trainingsplan voor Lorenzo voor:
-Race: ${name}
-Datum: ${rDate.toLocaleDateString('nl-NL',{day:'numeric',month:'long',year:'numeric'})}
+  document.getElementById('race-err').style.display='none';
+  document.getElementById('race-form').style.display='none';
+  document.getElementById('race-loading').style.display='block';
+  const rd=new Date(date);
+  const weeks=Math.max(1,Math.ceil((rd-new Date())/(1000*60*60*24*7)));
+  const prompt=`Maak een persoonlijk trainingsplan voor Lorenzo voor:
+Race: ${name} | Datum: ${rd.toLocaleDateString('nl-NL',{day:'numeric',month:'long',year:'numeric'})}
 Afstand: ${dist}km | Hoogtemeters: ${elev}m D+ | Doeltijd: ${time} uur
-Beschikbare weken: ${weeks} weken
-Conditie: ${cond}
-${extra ? 'Extra: '+extra : ''}
+Beschikbare weken: ${weeks} | Conditie: ${cond}${extra?'\nExtra: '+extra:''}
 
-Geef:
-1. Race analyse (verwachte pace, moeilijkheidsgraad)
-2. Week-voor-week plan met volume, focus en lange run per week
-3. Belangrijkste trainingen per week
-4. Race strategie
-
-Wees concreet en houd rekening met zijn ploegendiensten.`;
+Houd rekening met: Rotterdam als thuisbasis, heuvel Hoge Bergse Bos 1-2x/week voor hoogtemeters, ploegendiensten. Geef week-voor-week plan met specifieke Rotterdam en heuvel workouts.`;
   try {
-    const plan = await callClaude([{ role:'user', content: prompt }], 2000);
-    document.getElementById('plan-text').textContent = plan;
-    document.getElementById('race-output').style.display = 'block';
-    newRaceData = { name, date, dist, elev, time, weeks, plan };
+    const plan=await callClaude([{role:'user',content:prompt}],2000);
+    document.getElementById('plan-txt').textContent=plan;
+    document.getElementById('race-out').style.display='block';
+    newRace={name,date,dist,elev,time,weeks,plan};
   } catch(e) {
-    document.getElementById('race-form').style.display = 'block';
-    const err = document.getElementById('race-error');
-    err.style.display = 'block';
-    err.textContent = '⚠️ Kon geen verbinding maken. Controleer je API key in de Race tab.';
+    document.getElementById('race-form').style.display='block';
+    const err=document.getElementById('race-err'); err.style.display='block'; err.textContent='⚠️ Geen verbinding. Sla je API key op.';
   }
-  document.getElementById('race-loading').style.display = 'none';
+  document.getElementById('race-loading').style.display='none';
 }
 
-function applyPlan() {
-  if (!newRaceData) return;
-  const d = newRaceData;
-  document.getElementById('race-display-name').textContent = d.name;
-  const rd = new Date(d.date);
-  document.getElementById('race-display-meta').textContent = rd.toLocaleDateString('nl-NL',{day:'numeric',month:'long',year:'numeric'}) + ' · Doel: ' + d.time + ' uur';
-  document.getElementById('cnt-km').textContent = d.dist;
-  document.getElementById('cnt-dplus').textContent = d.elev;
-  document.getElementById('cnt-weeks').textContent = d.weeks;
-  const daysLeft = Math.ceil((rd - new Date()) / 86400000);
-  document.getElementById('cnt-days').textContent = daysLeft;
-  const totalDays = d.weeks * 7;
-  const pct = Math.max(0, Math.min(100, Math.round(((totalDays-daysLeft)/totalDays)*100)));
-  document.getElementById('prog').style.width = pct + '%';
-  document.getElementById('plan-container').innerHTML = '<div class="info-note" style="color:var(--green)">✓ Actief plan: ' + d.name + '</div><div class="plan-result">' + d.plan.replace(/</g,'&lt;') + '</div><button class="btn-outline" onclick="showSection(\'race\',\'Race Planner\',document.querySelectorAll(\'.nav-btn\')[5])">Nieuwe race plannen</button>';
-  showSection('home', 'Dashboard', document.querySelectorAll('.nav-btn')[0]);
+function ap() {
+  if(!newRace) return;
+  const d=newRace;
+  document.getElementById('r-display-name').textContent=d.name;
+  const rd=new Date(d.date);
+  document.getElementById('r-display-meta').textContent=rd.toLocaleDateString('nl-NL',{day:'numeric',month:'long',year:'numeric'})+' · Doel: '+d.time+' uur';
+  document.getElementById('cnt-km').textContent=d.dist;
+  document.getElementById('cnt-dp').textContent=d.elev;
+  document.getElementById('cnt-wk').textContent=d.weeks;
+  const dl=Math.ceil((rd-new Date())/86400000);
+  document.getElementById('cnt-days').textContent=dl;
+  const pct=Math.max(0,Math.min(100,Math.round(((d.weeks*7-dl)/(d.weeks*7))*100)));
+  document.getElementById('prog').style.width=pct+'%';
+  document.getElementById('plan-container').innerHTML='<div class="ok-note">✓ Actief plan: '+d.name+'</div><div class="plan-result">'+d.plan.replace(/</g,'&lt;')+'</div><button class="btn-out" onclick="ss(\'race\',\'Race Planner\',document.querySelectorAll(\'.nav-btn\')[6])">Nieuwe race plannen</button>';
+  ss('home','Dashboard',document.querySelectorAll('.nav-btn')[0]);
 }
 
-function resetForm() {
-  document.getElementById('race-form').style.display = 'block';
-  document.getElementById('race-output').style.display = 'none';
-  document.getElementById('race-error').style.display = 'none';
+function rf() {
+  document.getElementById('race-form').style.display='block';
+  document.getElementById('race-out').style.display='none';
+  document.getElementById('race-err').style.display='none';
 }
 
-// Countdown
-const diff = Math.ceil((new Date('2026-06-21') - new Date()) / 86400000);
-const el = document.getElementById('cnt-days');
-if (el && diff > 0) el.textContent = diff;
-
-// Pre-fill API key if saved
-const saved = localStorage.getItem('tc_api_key');
-if (saved) {
-  const inp = document.getElementById('api-key-input');
-  if (inp) inp.value = '••••••••••••••••';
-}
+const diff=Math.ceil((new Date('2026-06-21')-new Date())/86400000);
+const el=document.getElementById('cnt-days');
+if(el&&diff>0) el.textContent=diff;
+const saved=localStorage.getItem('tc_k');
+if(saved){const i=document.getElementById('api-in');if(i)i.value='••••••••••••••••';}
+if('serviceWorker' in navigator){navigator.serviceWorker.register('/trail-coach/sw.js').catch(()=>{});}
 </script>
-<script>if("serviceWorker" in navigator){navigator.serviceWorker.register("/sw.js").catch(()=>{})}</script>
 </body>
 </html>
